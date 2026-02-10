@@ -21,7 +21,7 @@
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             background: white;
             border-radius: 12px;
@@ -190,25 +190,11 @@
             text-align: center;
         }
 
-        .stat-card.favorable {
-            border-left: 4px solid #28a745;
-        }
-
-        .stat-card.parcial {
-            border-left: 4px solid #9B8942;
-        }
-
-        .stat-card.desfavorable {
-            border-left: 4px solid #b71234;
-        }
-
-        .stat-card.inadmision {
-            border-left: 4px solid #979492;
-        }
-
-        .stat-card.total {
-            border-left: 4px solid #007bff;
-        }
+        .stat-card.favorable { border-left: 4px solid #28a745; }
+        .stat-card.parcial { border-left: 4px solid #9B8942; }
+        .stat-card.desfavorable { border-left: 4px solid #b71234; }
+        .stat-card.inadmision { border-left: 4px solid #979492; }
+        .stat-card.total { border-left: 4px solid #007bff; }
         
         .stat-card h3 {
             font-size: 13px;
@@ -242,65 +228,65 @@
             font-size: 20px;
         }
 
+        .table-wrapper {
+            max-height: 600px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         thead {
             background: linear-gradient(135deg, #b71234 0%, #8b0d27 100%);
             color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         th {
-            padding: 15px;
+            padding: 15px 10px;
             text-align: left;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         td {
-            padding: 12px 15px;
+            padding: 12px 10px;
             border-bottom: 1px solid #e9ecef;
-            font-size: 14px;
+            font-size: 13px;
+            vertical-align: top;
         }
 
         tbody tr:hover {
             background: #f8f9fa;
         }
 
+        tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+
         .badge {
             display: inline-block;
             padding: 4px 12px;
             border-radius: 12px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
+            white-space: nowrap;
         }
 
-        .badge.favorable {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .badge.parcial {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .badge.desfavorable {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .badge.inadmision {
-            background: #e2e3e5;
-            color: #383d41;
-        }
+        .badge.favorable { background: #d4edda; color: #155724; }
+        .badge.parcial { background: #fff3cd; color: #856404; }
+        .badge.desfavorable { background: #f8d7da; color: #721c24; }
+        .badge.inadmision { background: #e2e3e5; color: #383d41; }
         
         .footer {
             padding: 20px 30px;
@@ -317,40 +303,14 @@
         }
 
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 22px;
-            }
-            
-            .control-group {
-                grid-template-columns: 1fr;
-            }
-            
-            .chart-container {
-                height: 350px;
-                padding: 20px;
-            }
-
-            .download-section {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .download-btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .table-container {
-                padding: 15px;
-            }
-
-            table {
-                font-size: 12px;
-            }
-
-            th, td {
-                padding: 8px;
-            }
+            .header h1 { font-size: 22px; }
+            .control-group { grid-template-columns: 1fr; }
+            .chart-container { height: 350px; padding: 20px; }
+            .download-section { flex-direction: column; align-items: stretch; }
+            .download-btn { width: 100%; justify-content: center; }
+            .table-container { padding: 15px; }
+            table { font-size: 11px; }
+            th, td { padding: 8px 5px; }
         }
     </style>
 </head>
@@ -386,7 +346,7 @@
         </div>
 
         <div class="download-section">
-            <h3>📥 Descargar Datos:</h3>
+            <h3>📥 Descargar Registro Completo:</h3>
             <button class="download-btn" id="downloadExcelBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
@@ -405,27 +365,26 @@
             <canvas id="mainChart"></canvas>
         </div>
         
-        <div class="stats-grid" id="statsGrid">
-            <!-- Se llenará dinámicamente -->
-        </div>
+        <div class="stats-grid" id="statsGrid"></div>
 
-        <div class="table-container" id="tableContainer">
-            <h2>Detalle de Solicitudes <span id="yearTitle"></span></h2>
-            <table id="dataTable">
-                <thead>
-                    <tr>
-                        <th>Nº Expediente</th>
-                        <th>Fecha Entrada</th>
-                        <th>Resumen Solicitud</th>
-                        <th>Forma Acceso</th>
-                        <th>Tiempo Resolución</th>
-                        <th>Sentido Resolución</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <!-- Se llenará dinámicamente -->
-                </tbody>
-            </table>
+        <div class="table-container">
+            <h2>📄 Detalle de Solicitudes <span id="yearTitle"></span></h2>
+            <div class="table-wrapper">
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">Nº Expte.</th>
+                            <th style="width: 100px;">Fecha</th>
+                            <th>Resumen de la Solicitud</th>
+                            <th style="width: 100px;">Forma Acceso</th>
+                            <th style="width: 100px;">Tiempo Res.</th>
+                            <th style="width: 140px;">Sentido Resolución</th>
+                            <th style="width: 80px;">Consejo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
         </div>
         
         <div class="footer">
@@ -434,6 +393,3316 @@
     </div>
 
     <script>
+const datosCompletosDetallados = {
+  "2022": [
+    {
+      "expediente": "",
+      "fecha_entrada": "17/01/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre un procedmiento de selección de promoción interna de personal funcionario.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "2 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Disposición Adicional 1ª de la ley 19/2013 y ley 10/2019",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "11/02/2022",
+      "solicitante": "***",
+      "resumen": "Copia de convenio con Ayuntamiento de san Lorenzo del El Escorial.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "10 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "11/02/2022",
+      "solicitante": "***",
+      "resumen": "Circunstancias cambio RPT.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "9 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "No existe documentación +  Disposición Adicional 1ª de la ley 19/2013 y ley 10/2019",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "14/02/2022",
+      "solicitante": "Fabio Antonio Pascua Mateo",
+      "resumen": "Datos sobre retribuciones variables ligadas a méritos individuales.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "fapascua@ucm.es",
+      "tiempo_resolucion": "8 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "17/02/2022",
+      "solicitante": "***",
+      "resumen": "Información estadísticos sobre origen de los miembros de la comunidad univesitaria del Campus de Somosaguas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "6 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "4/03/2022",
+      "solicitante": "Darío Ojeda García",
+      "resumen": "InformacIón sobre acuerdos con organizaciones chinas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "38 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "30/03/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre resultados académicos Facultades del Campus de Somosaguas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "15/04/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre acuerdos con el Instituto Castellano y Leonés de la Lengua.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "15/04/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre contratos firmados por 2 personas con la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "18/04/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre destinos deseados en intercambios internacionales de estudíantes de la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "14 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "21/04/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre el régimen disciplinario de los estudíantes.",
+      "forma_acceso": "Postal",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "20 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "5/05/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre acuerdo de la UCM y el Arzobispado de Madrid. ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "8 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "9/05/2022",
+      "solicitante": "Jesús Cristóbal Barrios\n***",
+      "resumen": "Ingresos obtenidos por la UCM por un evento.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "jcbcmpsmt@gmail.com\nCorreo electrónico",
+      "tiempo_resolucion": "7 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "10/05/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre una cátedra extraordinaria.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "14 días (suspención por trámite alegaciones)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "23/05/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre un profesor de la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "26/05/2022",
+      "solicitante": "***",
+      "resumen": "Petición del acta y varias informaciones de una sesión del Consejo de Gobieno.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "19 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "1/06/2022",
+      "solicitante": "***",
+      "resumen": "Petición de un acta.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "19 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Garantía de confidencialidad.",
+      "consejo_transparencia": "SÍ (RDA CTPCM 233/2022)"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "1/06/2022",
+      "solicitante": "***",
+      "resumen": "Petción de un acta.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "20 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "SÍ (RDA CTPCM 231/2022)"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "14/06/2022",
+      "solicitante": "***",
+      "resumen": "Actuaciones en relación a una noticia publicada en la prensa.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "7 días",
+      "sentido_resolucion": "Inadmisión",
+      "motivo_denegacion": "Incompetencia (art. 18.1d) Ley 19/2013) ",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "28/06/2022",
+      "solicitante": "***",
+      "resumen": "Petición actas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "19 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "24/06/2022",
+      "solicitante": "***",
+      "resumen": "Petición acceso a expedientes de candidatos a un proceso selectivo.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "8 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Disposición Adicional 1ª de la ley 19/2013 y ley 10/2019",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "30/06/2022",
+      "solicitante": "César Benito Jiménez",
+      "resumen": "Información sobre complementos percibidos al cesar en cargos.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "cebe8183@ucm.es",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "28/07/2022",
+      "solicitante": "***",
+      "resumen": "Petición actas del Pleno del Comité de Empresa.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "17 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Petición no amparada por la legislación de transparencia.",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "29/07/2022",
+      "solicitante": "***",
+      "resumen": "Petición actas del Pleno del Comité de Empresa.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "39 días (ampliación plazo \nart. 42 ley 10/2019)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "SÍ (RDA CTPCM 343/2022)"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "3/08/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre ocupación de espacios de las Facultades de Derecho, Filología y Filosofía.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "28 días (ampliación plazo \nart. 42 ley 10/2019)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "2022-08-06 00:00:00",
+      "solicitante": "Alejandro Sanchís Fernández de Córdova",
+      "resumen": "Retribuciones PDI funcionario (Catedráticos, Agregados, Adjuntos) de 1970 a1977.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "alejsanchis@hotmail.com",
+      "tiempo_resolucion": "25 días (ampliación plazo \nart. 42 ley 10/2019)",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "No existe documentación.",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "29/07/2022",
+      "solicitante": "***",
+      "resumen": "Petición actas del Consejo de Gobierno.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "31 días (ampliación plazo \nart. 42 ley 10/2019)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "12/08/2022",
+      "solicitante": "***",
+      "resumen": "Donaciones, subvenciones y otros ingresos procedentes de empresas mineras o del sector energético.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "34 días (ampliación plazo \nart. 42 ley 10/2019)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "15/08/2022",
+      "solicitante": "Óscar Rollón Aymerich",
+      "resumen": "Información sobre coches oficiales de la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "osrollon@ucm.es",
+      "tiempo_resolucion": "18 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "29/08/2022",
+      "solicitante": "Valentín Roales Gómez",
+      "resumen": "Información de un proceso selectivo de profesores asociados.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "9 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "6/09/2022\n9/09/2022\n9/09/2022",
+      "solicitante": "Virginia Rey Cebolla\nMercedes Serrano Aniorte\nCristina Hernández García",
+      "resumen": "Información sobre procesos selectivos del Personal de Administración y Servicios.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "virginia.rey.cebolla@madrid.org\nmserranoaniorte@gmail.com\nhergar86@hotmail.com",
+      "tiempo_resolucion": "4 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Disposición Adicional 1ª de la ley 19/2013 y ley 10/2019",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "5/09/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre oferta de estudios.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "4 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "21/09/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre concurso de explotación de cafeterías del Campus de Somosaguas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "cgil@ucm.es",
+      "tiempo_resolucion": "9 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "22/09/2022",
+      "solicitante": "Gema Pastor Albaladejo",
+      "resumen": "Información sobre concesión de permisos sabáticos.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "gpastora@ucm.es",
+      "tiempo_resolucion": "12 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "No existe documentación",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "5/10/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre remuneraciones de empleados UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días (suspensión por \ntrámite alegaciones)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "6/10/2022",
+      "solicitante": "***",
+      "resumen": "Información acerca de incidencias en Colegios Mayores.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "SÍ (RDA CTPCM 356/2022)"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "7/10/2022",
+      "solicitante": "Francisco de Paula Delgado Abad",
+      "resumen": "Informacióna acerca de calificaciones de la EvAU.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "francisco.delgado@retamar.es",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "7/10/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre Colegios Mayores.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "7/10/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre un proceso selectivo.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "8 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "9/10/2022",
+      "solicitante": "Víctor Ubierna de las Heras",
+      "resumen": "Información acerca de un Colegio Mayor.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "17 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "No existe documentación",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "9/10/2022",
+      "solicitante": "Raúl Díaz Santiago",
+      "resumen": "Información acerca de un Colegio Mayor.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "rdiazsan@ucm.es",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "10/10/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre baremos de becas a residentes de Colegios Mayores.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "6 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Disposición Adicional 1ª de\nla ley 19/2013 y ley 10/2019",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "11/10/2022",
+      "solicitante": "José Luis Serrano Mestre",
+      "resumen": "Nota media de un grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "josser04@ucm.es",
+      "tiempo_resolucion": "8 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "14/10/2022",
+      "solicitante": "José Francisco Traub",
+      "resumen": "Liquidaciones de los Presupuestos de Gastos desde 2015 hasta 2021.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "jtraub@ucm.es",
+      "tiempo_resolucion": "7 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "15/10/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre prácticas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "19 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "18/10/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre proceso selectivo.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "2 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Disposición Adicional 1ª de la ley 19/2013 y ley 10/2019",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "19/10/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre Colegios Mayores.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "SÍ (RDA CTPCM 361/2022)"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "25/10/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre un proceso selectivo.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Inadmisión",
+      "motivo_denegacion": "Reelaboración (art. 18.1.c) Ley 19/2013) ",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "27/10/2022",
+      "solicitante": "***",
+      "resumen": "Informacion sobre pagos realizados por una conferencia.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "12 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "No existe la información .",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "28/10/2022",
+      "solicitante": "Luis González Mac-Dowell",
+      "resumen": "Información sobre determinados gastos asumidos por la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "11 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "2/11/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre exámenes de acceso a la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "9 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "No existe la información solicitada.",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "4/11/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre sanciones y denuncias por novatadas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "2022-11-17 00:00:00",
+      "solicitante": "***",
+      "resumen": "Varias informaciones sobre Colegios Mayores. ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "7 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "21/11/2022",
+      "solicitante": "***",
+      "resumen": "Varias informaciones sobre una convocatoria de becas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "6 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Disposición Adicional 1ª de la ley 19/2013 y ley 10/2019 + protección de datos",
+      "consejo_transparencia": "SÍ (RDA CTPCM 371/2022)"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "28/11/2022",
+      "solicitante": "***",
+      "resumen": "Información sobre un convocatoria de plazas de movilidad con Corea.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "12 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "26/12/2022",
+      "solicitante": "Ainhoa Díez Ruiz",
+      "resumen": "Información sobre un título propio de la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "diezruiz00@gmail.com",
+      "tiempo_resolucion": "18 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    }
+  ],
+  "2023": [
+    {
+      "expediente": "",
+      "fecha_entrada": "1/01/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre la herramienta para controlar plagios Turnitin.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "11/01/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre remuneraciones de empleados UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "16 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "17/01/2023",
+      "solicitante": "***",
+      "resumen": "Destinos deseados en intercambios internacionales de estudiantes de la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "14 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "14/02/2023",
+      "solicitante": "***",
+      "resumen": "Actuación Comisión de Valoración de Ayudas Extraordinarias.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "2 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "SÍ (RDA CTPCM 063/2023)"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "15/02/2023",
+      "solicitante": "David Antón Torres",
+      "resumen": "Estructura de un Departamento.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "idat286@gmail.com",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "15/02/2023",
+      "solicitante": "***",
+      "resumen": "Datos sobre vía de acceso a determinados estudios y permanencia en los mismos.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "20 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "No existe la información solicitada.",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "16/02/2023",
+      "solicitante": "Francisco Javier del Río Esteban",
+      "resumen": "Información acerca de un blog de un profesor.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "jdelrio@ucm.es",
+      "tiempo_resolucion": "12 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "16/02/2023",
+      "solicitante": "***",
+      "resumen": "Informacion acerca del personal de seguridad.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "21/02/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre antigüedad del personal.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "24/2/2023",
+      "solicitante": "***",
+      "resumen": "Destinos deseados en intercambios internacionales de estudiantes de la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "27/2/2023",
+      "solicitante": "***",
+      "resumen": "Varias informaciones sobre una convocatoria de becas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "14 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "No es competencia de la UCM.",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "28/2/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre el plan de comunicación.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "16/03/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre Directora de la cátedra extraordinaria para la Transformación Social Competitiva.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "17/03/2023",
+      "solicitante": "***",
+      "resumen": "Destinos deseados en intercambios internacionales de estudiantes de la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "7 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "21/03/2023",
+      "solicitante": "Ernest Miguélez Sánchez",
+      "resumen": "Información sobre tesis realizadas en la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "7 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "23/03/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre datos del solicitante en el Observatorio estudiante y en el VR de Estudiantes.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "3 días",
+      "sentido_resolucion": "Inadmisión",
+      "motivo_denegacion": "Incompetencia material.",
+      "consejo_transparencia": "SÍ (RDA CTPCM 114/2023)"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "27/03/2023",
+      "solicitante": "***",
+      "resumen": "Resultados de procesos electorales finalizados.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "27/03/2023",
+      "solicitante": "***",
+      "resumen": "Solicita actualización normativa Biblioteca.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "3 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Obligación de  hacer + Disposición Adicional 1ª de la ley 19/2013 y ley 10/2019.",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "30/03/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre una convocatoria de ayudas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "1 día",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Disposición Adicional 1ª de la ley 19/2013 y ley 10/2020.",
+      "consejo_transparencia": "SÍ (RDA CTPCM 113/2023)"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "11/04/2023",
+      "solicitante": "***",
+      "resumen": "Solicita normativa II Acuerdo condiciones laborales PASF UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "2 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "28/04/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre expediente acerca de un Colegio Mayor.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "11 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "4/05/2023",
+      "solicitante": "***",
+      "resumen": "Petición actas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "6 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "8/05/2023",
+      "solicitante": "Alexandra Erica Vidal Zhukova",
+      "resumen": "Petición acuerdo de la Comisión Permanente de la Junta de Gobierno.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "alexav02@ucm.es",
+      "tiempo_resolucion": "4 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "22/05/2023",
+      "solicitante": "Francisco de Paula Delgado Abad",
+      "resumen": "Nota media de bachillerato de alumnos que realizan la EvAU en la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "francisco.delgado@retamar.es",
+      "tiempo_resolucion": "14 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "24/05/2023",
+      "solicitante": "***",
+      "resumen": "Varias informaciones sobre un proceso selectivo.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "14 días (suspensión por trámite alegaciones)",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Disposición Adicional 1ª de la ley 19/2013 y ley 10/2020.",
+      "consejo_transparencia": "SÍ (RDA CTCPM 192/2023)"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "14/06/2023",
+      "solicitante": "Francisco de Paula Delgado Abad",
+      "resumen": "Nota media en fase general de alumnos que realizan la EvAU en la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "francisco.delgado@retamar.es",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "21/06/2023",
+      "solicitante": "César González Gamonal",
+      "resumen": "Actas de escrutinio.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "cesgon02@ucm.es",
+      "tiempo_resolucion": "10 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "30/06/2023",
+      "solicitante": "José Luis Laín Herrera",
+      "resumen": "Plan de estudios de un grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "1 día",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "3/07/2023",
+      "solicitante": "***",
+      "resumen": "Decisiones sobre aceptación de aportaciones económicas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "9 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "No existe documentación + obligación de hacer.",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "3/07/2023",
+      "solicitante": "***",
+      "resumen": "Acceso a un expediente de un proceso selectivo.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "2 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Disposición Adicional 1ª de la ley 19/2013 y ley 10/2020.",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "7/07/2023",
+      "solicitante": "***",
+      "resumen": "Propuesta de modificación a la memoria del Plan de Estudios.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "6 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "18/07/2023",
+      "solicitante": "***",
+      "resumen": "Varias informaciones sobre un proceso selectivo.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "6 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Disposición Adicional 1ª de la ley 19/2013 y ley 10/2020.",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "4/09/2023",
+      "solicitante": "Mónica Sánchez Villegas",
+      "resumen": "Información sobre matrículas en un Grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "msanchezvill@gmail.com",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "5/09/2023\n6/09/2023\n6/09/2023",
+      "solicitante": "***\n***\n***",
+      "resumen": "Información sobre matrículas en un Grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico\nCorreo electrónico\nCorreo electrónico",
+      "tiempo_resolucion": "7 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "6/09/2023\n10/09/2023",
+      "solicitante": "M. ª Elisabet Alcántara Íñiguez\n***",
+      "resumen": "Información sobre matrículas y plazas ofertadas en un Grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico\nCorreo electrónico",
+      "tiempo_resolucion": "6 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "11/09/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre matrículas y plazas ofertadas en un Grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "3 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "20/09/2023\n20/09/2023\n22/09/2023",
+      "solicitante": "***\nJuan Carlos Figueira Iglesias\n***",
+      "resumen": "Información sobre matrículas y plazas ofertadas en un Grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico\nluarnaria@yahoo.es\nCorreo electrónico",
+      "tiempo_resolucion": "6 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "2023-09-20 00:00:00",
+      "solicitante": "***",
+      "resumen": "Información sobre matrículas y plazas ofertadas en un Grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "6 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "2023-09-20 00:00:00",
+      "solicitante": "María Cobo López",
+      "resumen": "Información sobre matrículas y plazas ofertadas en un Grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "mariacobolp@gmail.com",
+      "tiempo_resolucion": "4 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "21/09/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre matrículas y plazas ofertadas en un Grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "22/09/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre diversos aspectos de la cátedra extraordinaria para la Transformación Social Competitiva.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "16 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "25/09/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre gastos de suscripción a revistas científicas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "11 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "27/09/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre el Consejo de Transparencia de la Comunidad de Madrid.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "10 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Obligación de hacer.",
+      "consejo_transparencia": "SÍ (RDA CTCPM 283/2023)"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "27/09/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre publicación de  becas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "10 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Obligación de hacer.",
+      "consejo_transparencia": "SÍ (RDA CTCPM 281/2023)"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "27/09/2023",
+      "solicitante": "***",
+      "resumen": "Varias informaciones sobre una convocatoria de becas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "10 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Obligación de hacer.",
+      "consejo_transparencia": "SÍ (RDA CTCPM 282/2023)"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "02/10/2023\n06/10/2023\n9/10/2023\n10/10/2023",
+      "solicitante": "***\n***\nM.  Elisabet Alcántara Íñiguez\n***",
+      "resumen": "Información sobre matrículas en un Grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico\nCorreo electrónico\nCorreo electrónico\nCorreo electrónico",
+      "tiempo_resolucion": "6  días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "02/10/2023",
+      "solicitante": "Alberto Fidalgo Castro",
+      "resumen": "Información acuerdos Relaciones Internacionales.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "alberfid@ucm.es",
+      "tiempo_resolucion": "9 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "02/10/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre proceso de admisión en un Grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "6  días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "02/10/2023",
+      "solicitante": "***",
+      "resumen": "Varias informaciones sobre un proceso selectivo.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15  días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "05/10/2023",
+      "solicitante": "Pedro López Ferrero",
+      "resumen": "Varias informaciones sobre un proceso selectivo.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "pedlop02@ucm.es",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "10/10/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre proceso de admisión en un Grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "1 día",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "11/10/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre un curso impartido por la Unidad de Igualdad.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "20 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "16/10/2023",
+      "solicitante": "Ricardo Becerro de Bengoa Vallejo",
+      "resumen": "Información sobre un convenio.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "ribebeva@ucm.es",
+      "tiempo_resolucion": "17 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "17/10/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre las residencias de profesores.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "17 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "26/10/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre un convenio.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "8 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "27/10/2023",
+      "solicitante": "***",
+      "resumen": "Revisión criterios política de becas",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "10 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Obligación de hacer.",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "31/10/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre proceso de admisión en un Grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "8/11/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre  normativa sobre sistema interno de información.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "8 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "15/11/2023",
+      "solicitante": "Iñigo Vitón García",
+      "resumen": "Información sobre contratos predoctorales.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "iviton@ucm.es",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "01/12/2023",
+      "solicitante": "Antonio Expósito Medina",
+      "resumen": "Informe de prevención de riesgos laborales.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "antoniex@ucm.es",
+      "tiempo_resolucion": "11 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "No existe la información solicitada.",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "05/12/2023",
+      "solicitante": "Susana Fernández Blanco",
+      "resumen": "Varias informaciones sobre un proceso selectivo.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "su@susanafblanco.com",
+      "tiempo_resolucion": "6 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Disposición Adicional 1ª de la ley 19/2013 y ley 10/2020.",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "13/12/2024",
+      "solicitante": "***",
+      "resumen": "Retribución mensual de profesores titulares y catedráticos a tiempo completo.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "7 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "15/12/2023",
+      "solicitante": "***",
+      "resumen": "Informacion sobre la expedición de un título universitario.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "19/12/2023",
+      "solicitante": "***",
+      "resumen": "Información sobre las residencias de profesores.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "31 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "20/12/2023",
+      "solicitante": "***",
+      "resumen": "Documentación sobre alumnos ilustres.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "19 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": "NO"
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "21/12/2023",
+      "solicitante": "***",
+      "resumen": "Acceso a expediente académico.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Protección de datos de carácter personal.",
+      "consejo_transparencia": "NO"
+    }
+  ],
+  "2024": [
+    {
+      "expediente": "",
+      "fecha_entrada": "07/01/2024",
+      "solicitante": "Rafael Martínez Fernández",
+      "resumen": "Información desglosada sobre PDI.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "11 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "10/01/2024",
+      "solicitante": "***",
+      "resumen": "Relaciones UCM con varias instituciones ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "17 días ",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "22/01/2024",
+      "solicitante": "***",
+      "resumen": "Inventario y planos de distintas dependencias de una facultad.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 días ",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "25/01/2024",
+      "solicitante": "Iván Hernández Anegón",
+      "resumen": "Gastos en viajes.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "ivanhe03@ucm.es",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Información no disponible en los términos que la solicitan.",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "30/01/2024",
+      "solicitante": "Jorge Fernando Pérez-Huet",
+      "resumen": "Información sobre precios de cafeterías situadas en la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "jperezhu@ucm.es",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "13/02/2024",
+      "solicitante": "Ángel Ruiz de la Puente",
+      "resumen": " Información y normativa varia de la UCM y sus centros",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "angrui09@ucm.es",
+      "tiempo_resolucion": "17 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "16/02/2024",
+      "solicitante": "***",
+      "resumen": "Información y documentación de una facultad.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "39 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "19/02/2024",
+      "solicitante": "***",
+      "resumen": "Información sobre varios profesores UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "19 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Protección de datos",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "22/02/2024",
+      "solicitante": "***",
+      "resumen": "Información sobre un profesor.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "17 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Protección de datos",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "07/03/2024",
+      "solicitante": "Daniel Santín González",
+      "resumen": "Información sobre bajas de PDI.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "dsanting@ucm.es",
+      "tiempo_resolucion": "18 días ",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "07/03/2024",
+      "solicitante": "Ángel Ruiz de la Puente",
+      "resumen": "Diversa normativa.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "angrui09@ucm.es",
+      "tiempo_resolucion": "39 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Información no disponible en los términos que la solicitan.",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "07/03/2024",
+      "solicitante": "Ángel Ruiz de la Puente",
+      "resumen": "Pliegos de prescripciones técnicas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "angrui09@ucm.es",
+      "tiempo_resolucion": "8 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "13/03/2024",
+      "solicitante": "***",
+      "resumen": "Listas de espera en admisión titulaciones.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "35 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "14/03/2024",
+      "solicitante": "***",
+      "resumen": "Información funcionarios grupo C2.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "17 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "14/03/2024",
+      "solicitante": "***",
+      "resumen": "Información sobre diversos aspectos de la cátedra extraordinaria para la Transformación Social Competitiva.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "40 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "18/03/2024",
+      "solicitante": "***",
+      "resumen": "Retribuciones percibidas por el Presidente del Gobierno.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 días ",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "19/03/2024",
+      "solicitante": "***",
+      "resumen": "Resolución de la Junta de Gobierno.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 días ",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "03/04/2024",
+      "solicitante": "***",
+      "resumen": "Información sobre convenios del Master propio Dirección de captación de fondos públicos ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "11 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "03/04/2024",
+      "solicitante": "***",
+      "resumen": "Información catedra extraordinaria Transformación Social Competitiva",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "38 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "04/04/2024",
+      "solicitante": "***",
+      "resumen": "Documentación varia de un departamento de Organización de Empresas de la facultad de CC. Económicas y Empresariales ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Solicita actas no aprobadas , información sobre una convocatoria en la que no ha participado y solicita una documentación que ya le ha sido entregada",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "05/04/2024",
+      "solicitante": "***",
+      "resumen": "Diferente información laboral sobre codirectora de una cátedra extraordinaria.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "37 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "05/04/2024",
+      "solicitante": "***",
+      "resumen": "Destinos deseados en intercambios internacionales de estudiantes de la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 días ",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "10/04/2024",
+      "solicitante": "***",
+      "resumen": "Información sobre el Proyecto Transforma TSC.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "36 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "18/04/2024",
+      "solicitante": "***",
+      "resumen": "Información Cátedra extraordinaria para la Transformación Social Competitiva",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "30 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "22/04/2024",
+      "solicitante": "***",
+      "resumen": "Información sobre retribuciones de personal participante en diversas titulaciones ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "30 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "24/04/2024",
+      "solicitante": "Rafael Flores de Frutos",
+      "resumen": "Información sobre compatibilidades de un profesor",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "RAFAELFLORESDEFRUTOS@GMAIL.COM",
+      "tiempo_resolucion": "17 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "24/04/2024",
+      "solicitante": "***",
+      "resumen": "Información sobre participación de la UCM en un cluster.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "19 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "26/04/2024",
+      "solicitante": "***",
+      "resumen": "Datos referentes a notas medias.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "5 días ",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "03/05/2024",
+      "solicitante": "Antonio Sánchez Carnicero",
+      "resumen": "Criterios de reconocimiento y transferencia de créditos",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "antons13@ucm.es",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "10/05/2024",
+      "solicitante": "***",
+      "resumen": "Información Cátedra extraordinaria para la Transformación Social Competitiva",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "16 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "21/05/2024",
+      "solicitante": "***",
+      "resumen": "Información sobre un proceso selectivo de estabilización (concurso-oposición)",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "14 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "23/05/2024",
+      "solicitante": "***",
+      "resumen": "Copia electrónica del convenio de colaboración de la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "16 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "No existe la información solicitada.",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "31/05/2024",
+      "solicitante": "***",
+      "resumen": "Diversa información acerca del departamento de Organización de Empresas",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "8 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "No existe la documentación solicitada. El acta cuyo acceso solicita no está aprobada. Esta en plazo de recurso de alzada art 3.1 de la Ley 40/2015.",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "04/06/2024",
+      "solicitante": "***",
+      "resumen": "Información Cátedra extraordinaria para la Transformación Social Competitiva",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "06/06/2024",
+      "solicitante": "***",
+      "resumen": "Información Cátedra extraordinaria para la Transformación Social Competitiva",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "06/06/2024",
+      "solicitante": "***",
+      "resumen": "Se solicita información precios y tarifas de la Facultad de Odontología.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "07/06/2024",
+      "solicitante": "***",
+      "resumen": "Número funcionarios auxiliares administrativo C2 acceso discapacidad. ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "12 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Datos especialmente protegidos",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "13/06/2024",
+      "solicitante": "María Prieto Muñiz",
+      "resumen": "Información diversa sobre el Festival Jardín de las Delicias se celebra en el terreno del Campo de Rugby Cantarranas, propiedad de la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "maprie08@ucm.es",
+      "tiempo_resolucion": "10días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "02/07/2024",
+      "solicitante": "***",
+      "resumen": "Información Cátedra extraordinaria para la Transformación Social Competitiva y seguros directivos.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "05/07/2024",
+      "solicitante": "***",
+      "resumen": "Información diversa sobre el Festival Jardín \"Noches del Botánico\" en el Real Jardín Botánico Alfonso XIII. ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "10 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "08/07/2024",
+      "solicitante": "***",
+      "resumen": "Información acerca de los sistemas de inteligencia artificial (IA)de la UCM",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "10 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "10/07/2024",
+      "solicitante": "***",
+      "resumen": "Información Cátedra extraordinaria para la Transformación Social Competitiva",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "7 días ",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "11/07/2024",
+      "solicitante": "***",
+      "resumen": "Información acerca de las cuentas anuales de la UCM de varios ejercicios económicos.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "7 días ",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "16/07/2024",
+      "solicitante": "***",
+      "resumen": "Información Máster Universitario en Formación del Profesorado de ESO y Bachillerato, FP y Enseñanzas de Idiomas.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "4 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "17/07/2024 \n17/07/2024",
+      "solicitante": "***                                                                         ***",
+      "resumen": "Información variada sobre un proceso de admisión al Grado de Veterinaria del curso 2024-2025",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "3 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "18/07/2024",
+      "solicitante": "Francisco de Paula Delgado Abad",
+      "resumen": "Información variada acerca de la nota media de Bachillerato y alumnos de la UCM de la EvAU.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "francisco.delgado@retamar.es",
+      "tiempo_resolucion": "36 días ",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Información no disponible en los términos que la solicitan.",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "22/07/2024",
+      "solicitante": "***",
+      "resumen": "Información Cátedra extraordinaria para la Transformación Social Competitiva",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "1 día",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "22/07/2024",
+      "solicitante": "Jorge Clemente Mediavilla",
+      "resumen": "Solicitud actas de las Comisiones Mixtas de diversas Cátedras Extraordinarias de la Facultad de CC Información.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "jclemen@ucm.es",
+      "tiempo_resolucion": "32 días ",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Las actas solicitadas no están  aprobadas. ",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "22/07/2024",
+      "solicitante": "***",
+      "resumen": "Solicitud de un convenio UCM (Facultad de Ciencias de la Información) / DREAMS FACTORY ADVERTISING SL (Aerocámaras) / Colaboración con el curso Oficial de Piloto Profesional de Drones (STS) AESA/EASA",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "33 días ",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "24/07/2024",
+      "solicitante": "***",
+      "resumen": "Información en relación al proceso de admisión a un Grado ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "35 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "24/07/2024",
+      "solicitante": "Francisco Blanco Juarez",
+      "resumen": "Información en relación al proceso de admisión a un Grado ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "36 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "26/07/2024",
+      "solicitante": "***",
+      "resumen": "Información en relación al proceso de admisión a un Grado ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "33 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "29/07/2024",
+      "solicitante": "***",
+      "resumen": "Información en relación al proceso de admisión a un Grado ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "32 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "29/07/2024",
+      "solicitante": "***",
+      "resumen": "Notas medias de bachillerato y EvAU.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "38 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Información no disponible en los términos que la solicitan.",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "29/07/2024",
+      "solicitante": "***",
+      "resumen": "Retribuciones percibidas por el Presidente del Gobierno.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "2 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "01/08/2024",
+      "solicitante": "***",
+      "resumen": "Información en relación al proceso de admisión a un Grado ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "nan",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "01/08/2024",
+      "solicitante": "***",
+      "resumen": "Retribuciones percibidas por el Presidente del Gobierno.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "27 días ",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "05/08/2024",
+      "solicitante": "***",
+      "resumen": "Se pide información sobre curso de Técnico Fundraising y en el Máster de Fundraising.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "1 día",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "27/08/2024\n 27/08/2024",
+      "solicitante": "***                                                                         ***",
+      "resumen": "Información sobre proceso de admisión en dos Grado.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "01/09/2024",
+      "solicitante": "***",
+      "resumen": "Información en relación al proceso de admisión a un Grado ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "10 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "2/09/2024     2/09/2024     2/09/2024",
+      "solicitante": "***                                                           Patricia de la Plata Cruz                         ***",
+      "resumen": "Información en relación al proceso de admisión a un Grado ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "9 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "02/09/2024",
+      "solicitante": "***",
+      "resumen": " Nombre y periodo de los directores que ha tenido la citada Clínica Universitaria de Podología de la UCM",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "16/09/2024",
+      "solicitante": "***",
+      "resumen": "Solicita documentación y contratos de unos expedientes determinados",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "9 días ",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "16/09/2024",
+      "solicitante": "Luis Bueno Ochoa",
+      "resumen": "Solicita información acerca de un asesor de un vicerrector.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "lubuoch@gmail.com",
+      "tiempo_resolucion": "20 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "18/09/2024",
+      "solicitante": "***",
+      "resumen": "Solicita expedientes y documentos relacionados con el proceso de otorgamiento de una beca.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Inadmisión",
+      "motivo_denegacion": "Información reiterada art. 18.1.e)+Obligación de hacer",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "04/10/2024",
+      "solicitante": "***",
+      "resumen": "Solicita convenio que tiene la UCM con la empresa organizadora de los eventos de Jardín Botánico. ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "16 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "09/10/2024",
+      "solicitante": "***",
+      "resumen": "Información del número de casos de acoso de índole sexual, laboral y /o de orientación. ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "11/10/2024",
+      "solicitante": "***",
+      "resumen": "Número de estudiantes becados en su clase desde el 2023 y los criterios tenidos en cuenta para la asignación de las becas a dichos estudiantes. ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Inadmisión",
+      "motivo_denegacion": "Información reiterada  art. 18.1.e) y obligación de hacer ",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "14/10/2024",
+      "solicitante": "***",
+      "resumen": "Copia de sus solicitudes y comunicaciones presentadas de manera presencial en los registros de la UCM. Carpeta en la Sede Electrónica donde aparezcan todos sus trámites.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "4 días",
+      "sentido_resolucion": "Inadmisión",
+      "motivo_denegacion": " Obligación de hacer ",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "21/10/2024",
+      "solicitante": "Mercedes Martín Benito",
+      "resumen": "Información sobre convenios y actuaciones de investigación entre la UCM e instituciones/empresas/organismos, sitos en Israel.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "mermar05@ucm.es",
+      "tiempo_resolucion": "17 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "28/10/2024                                                                                                                             28/10/2024",
+      "solicitante": "***                                                                ***",
+      "resumen": "Información sobre datos de la Web de la Biblioteca de la UCM e información de gestión de datos",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "4 días",
+      "sentido_resolucion": "Inadmisión",
+      "motivo_denegacion": "Información reiterada  art. 18.1.e) y obligación de hacer ",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "12/11/2024",
+      "solicitante": "Natalia Cárdenas Garrido",
+      "resumen": "Documentación sobre el Arco de la Victoria ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "ncardenas@intemac.es",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "13/11/2024",
+      "solicitante": "Laia Suñol Santanach",
+      "resumen": "Información del sistema de carrera profesional del PTGAS y evaluación del desempeño en la UCM",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "lsantanachs@uoc.edu",
+      "tiempo_resolucion": "14 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "13/11/2024",
+      "solicitante": "José Joaquín Molina Sáez",
+      "resumen": "Información sobre la ocupación de las aulas de la Facultad de Derecho.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "jjmolinasaez@hotmail.es",
+      "tiempo_resolucion": "14 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "21/11/2024",
+      "solicitante": "***",
+      "resumen": "Acuerdos del Consejo Social del 2016, convenios entre 2016-2019, convenio Montessori y documentación de Cátedras.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "40 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "29/11/2024",
+      "solicitante": "***",
+      "resumen": "Información sobre el máster de Transformación social competitiva.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "29/11/2024",
+      "solicitante": "***",
+      "resumen": "Número de plazas ofertadas y del nº de alumnos matriculados en el Grado en Ciencia de Datos Aplicadas en el 2022-2023-2024",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "11 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "1/12/2024",
+      "solicitante": "***",
+      "resumen": "Convocatorias y actas de las Comisiones Mixtas de Seguimiento de cuatro Cátedras",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "37 días ",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "16/12/2024",
+      "solicitante": "***",
+      "resumen": "Información sobre la formacíon académica de una persona",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "20 días ",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "16/12/2024",
+      "solicitante": "Diego José De Lorenzo Barrientos",
+      "resumen": "Expediente académico de un estudiante nacido en 1900, por  investigación genealógica",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "diego93068@gmail.com",
+      "tiempo_resolucion": "22 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "17/12/2024",
+      "solicitante": "***",
+      "resumen": "Información sobre la adscripción de dos profesores PAD",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "3 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "17/12/2024",
+      "solicitante": "***",
+      "resumen": "Certificado oficial relativo a la composición de los miembros de una Junta Electoral de un Departamento",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "3 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Información reiterada  art. 18.1.e) y obligación de hacer ",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "17/12/2024",
+      "solicitante": "***",
+      "resumen": "Actas y convocatorias de Consejo y Comisisones Permanentes de un Deptartamento.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "21 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "19/12/2024                                                                                                                             20/12/2024",
+      "solicitante": "***                                                                ***",
+      "resumen": "Realización de actuaciones.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "1 día",
+      "sentido_resolucion": "Inadmisión",
+      "motivo_denegacion": "Información reiterada  art. 18.1.e) y obligación de hacer ",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "20/12/2024",
+      "solicitante": "***",
+      "resumen": "Composición de la Junta Electoral de un Departamento",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 dias",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "22/12/2024",
+      "solicitante": "Hernán José Alberro Castro",
+      "resumen": "Relaciones con China.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "halberro@gmail.com",
+      "tiempo_resolucion": "38 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    }
+  ],
+  "2025": [
+    {
+      "expediente": "",
+      "fecha_entrada": "14/01/2025",
+      "solicitante": "***",
+      "resumen": "Copia de examenes para proceso PTGAS laboral",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "21/01/2025",
+      "solicitante": "***",
+      "resumen": "Convocatorias y actas de cinco Comisiones Mixtas ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "9 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "24/01/2025",
+      "solicitante": "***",
+      "resumen": "Inforamción sobre proyectos de investigación de un departamento",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "14 días",
+      "sentido_resolucion": "Inadmisión",
+      "motivo_denegacion": "Información reiterada  art. 18.1.e) y obligación de hacer ",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "13/02/2025",
+      "solicitante": "***",
+      "resumen": "Copia de convenio de CE Consulting, Lefebvre  y copia de acuerdo de  la Plataforma del Tercer sector con la UCM y, copia de poderes",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "7 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "26/02/2025",
+      "solicitante": "***",
+      "resumen": "Documentación de un proceso selectivo",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "12 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "27/02/2025",
+      "solicitante": "Yerma Ruth Ruano Rodríguez",
+      "resumen": "Número de denuncias sobre acoso sexual o sexista. Número de docentes, no docentes, alumnos y alumnas de la UCM",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "17 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "03/03/2025",
+      "solicitante": "***",
+      "resumen": "Convenios, acuerdos con entidades chinas",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "12 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "10/03/2025",
+      "solicitante": "***",
+      "resumen": "Información del Canal denuncias respecto a su implantación en las administraciones públicas",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "11/03/2025",
+      "solicitante": "***",
+      "resumen": "Documentos relacionados con un informe de la Comisión de Valoración",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Información reiterada  art. 18.1.e) y obligación de hacer ",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "14/03/2025",
+      "solicitante": "***",
+      "resumen": "Información presupuestaria de la UCM",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "14/03/2025",
+      "solicitante": "***",
+      "resumen": "Conocer las subidas salariales de los profesores funcionarios de las universidades públicas de la Comunidad de Madrid entre el 2004 y 2024",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "17/03/2025",
+      "solicitante": "***",
+      "resumen": "Documentación relativa al premio Alumni Ilustre",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "14 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "23/03/2025",
+      "solicitante": "***",
+      "resumen": "Destinos deseados en intercambios internacionales de estudiantes de la UCM cursos académicos 2024-25 y 2025-26",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "10 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "23/03/2025",
+      "solicitante": "***",
+      "resumen": "Alumnado beneficiario de la beca Erasmus Prácticas información referente a los últimos diez años",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "10 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "24/03/2025",
+      "solicitante": "***",
+      "resumen": "Información relacionada con el Protocolo de actuación frente al acoso sexulal y/o sexista",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "11 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "25/03/2025",
+      "solicitante": "***",
+      "resumen": "Información referente a expediente 67/2024",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "10 dias",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "26/03/2025",
+      "solicitante": "***",
+      "resumen": "Información relativa a Proyecto FES",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "38 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "31/03/2025",
+      "solicitante": "***",
+      "resumen": "Actas de la Comisión Académica del Máster Universitario en Comunicación de las Organizaciones",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "37 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "07/04/2025",
+      "solicitante": "Davide Bonaiuti",
+      "resumen": "Documentación relativa al funcionamiento de la Universidad de Mayores de la UCM",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "dbonaiut@ucm.es",
+      "tiempo_resolucion": "19 dias",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "09/04/2025",
+      "solicitante": "***",
+      "resumen": "Documentación relacionada con una Comisión de calidad del doctorado y su proceso electoral",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "17 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "11/04/2025",
+      "solicitante": "***",
+      "resumen": "Información sobre tesis realizadas en la UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "12 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "12/04/2025",
+      "solicitante": "***",
+      "resumen": "Información relativa a un expediente anterior",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "20/04/2025",
+      "solicitante": "***",
+      "resumen": "Información sobre un plan de estudios de grado",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "9 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "30/04/2025",
+      "solicitante": "Gerardo Ayala Calvo",
+      "resumen": "Notas de corte de la licenciatura de medicina en el periodo 1988-1998",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días    ",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "08/05/2025",
+      "solicitante": "***",
+      "resumen": "Documentos relacionados con un nombramiento de la Comisión de Calidad de un programa de doctorado",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "19 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "09/05/2025",
+      "solicitante": "***",
+      "resumen": "Documentación pública relativa al proyecto de una profesora",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "14 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "14/05/2025",
+      "solicitante": "***",
+      "resumen": "Conocer las dietas y gastos del Rector, Vicerrectores/as, Secretaria General y Gerente durante los años 2022-2023. \nRelación de coches oficiales, conductores y los gastos que conlleva (años 2022-2023)",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "36 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "29/05/2025",
+      "solicitante": "***",
+      "resumen": "Copia de las actas del consejo y de la comisión permanente del Departamento de Organización de Empresas ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "14 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "02/06/2025",
+      "solicitante": "***",
+      "resumen": "Criterios y  procedimento tenido en cuenta en un departamento respecto a una plaza de movilidad y comisión de servicios.\nAdemás de los empleados por la Junta de Facultad de Filología dentro del Plan de actuaciones de profesorado 2024, en referencia a la misma plaza.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "19 dias",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Información no disponible en los términos que la solicitan.",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "02/06/2025",
+      "solicitante": "***",
+      "resumen": "Publicación de determinadas resoluciones de un procedimiento relacionado con el Programa de Potenciación Estratégica",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "19 dias",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": " Obligación de hacer ",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "06/06/2025",
+      "solicitante": "***",
+      "resumen": "Copia de un informe reciente de la Asesoría Jurídica de la UCM, relacionado con la aplicación de la LOSU",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Inadmisión",
+      "motivo_denegacion": "Art. 18.1.b) de la Ley 19/2013",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "02/07/2025",
+      "solicitante": "***",
+      "resumen": "Copia de las actas del consejo y de la comisión permanente del Departamento de Organización de Empresas ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "18/07/2025",
+      "solicitante": "***",
+      "resumen": "Exámenes de una convocatoria de auxiliar administrativo",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "3 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "21/07/2025",
+      "solicitante": "***",
+      "resumen": "Acceso al Protocolo para la prevención, detección y actuación ante situaciones de acoso psicológico o bullying universitario en la UCM",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "2 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "23/07/2025",
+      "solicitante": "***",
+      "resumen": "Acceso a  información y documentación relacionada con un expediente disciplinario.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "2 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": " Disposición Adicional 1ª de la ley 19/2013 y ley 10/2019",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "27/07/2025",
+      "solicitante": "Sergio González Pérez",
+      "resumen": "Datos generales sobre trabajadores UCM.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "32 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "28/07/2025",
+      "solicitante": "***",
+      "resumen": "Identificación de los miembros de una  Comisión de Selección ",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "31 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "31/07/2025",
+      "solicitante": "***",
+      "resumen": "Resolución del Vicerectorado de Estudiantes.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "33 días (ampliación plazo art. 42 ley 10/2019)",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "25/08/2025",
+      "solicitante": "***",
+      "resumen": "Títulación universitaria de un cargo público",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "16/09/2025",
+      "solicitante": "Francisco Naveros Arrabal",
+      "resumen": "Información relativa a un contrato de obras",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "infraestructuras@fi.upm.es",
+      "tiempo_resolucion": "5 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "18/09/2025",
+      "solicitante": "Paula Martín Pelaez",
+      "resumen": "Resultados de encuesta realizada por Unidad de Igualdad",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "paulma06@ucm.es",
+      "tiempo_resolucion": "3 días",
+      "sentido_resolucion": "Inadmisión",
+      "motivo_denegacion": "Art. 18.1.a) Información en curso de elaboración",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "22/09/2025",
+      "solicitante": "Antonio Nicolás Fenoll",
+      "resumen": "Información sobre la reforma de los estatutos de la UCM",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "4 días",
+      "sentido_resolucion": "Inadmisión",
+      "motivo_denegacion": "Art. 18.1.a) Información en curso de elaboración",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "24/09/2025",
+      "solicitante": "***",
+      "resumen": "Acceso a varias sesiones del Consejo de Gobierno",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "7 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "25/09/2025",
+      "solicitante": "***",
+      "resumen": "Numero de plazas incrementadas en el grado de medicina y cuántas destinadas al cupo de deportistas, tras la subvención del Ministerio.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "26/09/2025",
+      "solicitante": "***",
+      "resumen": "Información de recursos administrativos contra resoluciones de Tribunales de reclamación de departamentos.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "14 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "26/09/2025",
+      "solicitante": "***",
+      "resumen": "Información relativa a un profesor de la UCM, e información sobre casos de acoso sexual",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "14 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Art. 14.1.e) Límite al derecho de acceso",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "26/09/2025",
+      "solicitante": "Beatriz Quevedo Sierra",
+      "resumen": "Número de egresados en Educación Social de tres cursos.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "13 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "02/10/2025",
+      "solicitante": "***",
+      "resumen": "Información diversa sobre la modificación de un Plan de estudios.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "36 dias",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Falta de objeto e información reiterada",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "06/10/2025",
+      "solicitante": "***",
+      "resumen": "Normativa del personal laboral en la UCM",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "9 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Información no disponible en los términos que la solicitan.",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "13/10/2025",
+      "solicitante": "***",
+      "resumen": "Información relacionada con una convocatoria de PDI",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "7 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Protección de datos.\nNo interesado en la convocatoria.",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "20/10/2025",
+      "solicitante": "***",
+      "resumen": "Información relacionada con una convocatoria de PDI",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "1 día",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Disposición Adicional 1ª de la ley 19/2013 y ley 10/2019",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "20/10/2025",
+      "solicitante": "Almudena Lobera Calzado",
+      "resumen": "Información relacionada con una convocatoria de PDI",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "allobera@ucm.es",
+      "tiempo_resolucion": "1 día",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Disposición Adicional 1ª de la ley 19/2013 y ley 10/2019",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "22/10/2025",
+      "solicitante": "Borja Moya Gómez",
+      "resumen": "Porcentaje de colegiales residentes en la  UCM",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "12 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "***",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "30/10/2025",
+      "solicitante": "***",
+      "resumen": "Información sobre el proceso de admisión al Programa de Doctorado",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "6 días",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Disposición Adicional 1ª de la ley 19/2013 y ley 10/2019",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "05/11/2025",
+      "solicitante": "***",
+      "resumen": "Información Ayudas al estudio Concepción Arenal",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "2 días",
+      "sentido_resolucion": "Inadmisión",
+      "motivo_denegacion": "Art. 18.1.a) Información en curso de elaboración",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "05/11/2025",
+      "solicitante": "***",
+      "resumen": "Información relativa de varias personas en un expediente disciplinario",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "6 días",
+      "sentido_resolucion": "Inadmisión",
+      "motivo_denegacion": "Art. 18.1.e) Información reiterada y protección de datos",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "17/11/2025",
+      "solicitante": "***",
+      "resumen": "Información relativa al PTGAS C1",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "8 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "nan",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "19/11/2025",
+      "solicitante": "***",
+      "resumen": "Número de plazas convocadas de PDI en los años 2021-2022-2023-2024",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "15 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "nan",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "22/11/2025",
+      "solicitante": "Silvia Penelo Hidalgo",
+      "resumen": "Información sobre plazas de PTGAS laboral en el HCVC",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "SPENELO@UCM.ES",
+      "tiempo_resolucion": "14 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "No existe la documentación solicitada",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "28/11/2025",
+      "solicitante": "***",
+      "resumen": "Gasto destinado a limpieza de pintadas en la UCM entre el 2015 y 2024",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Pabloharo@gmail.com",
+      "tiempo_resolucion": "10 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "nan",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "15/12/2025",
+      "solicitante": "***",
+      "resumen": "Información relativa a un expediente disciplinario",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "19 días",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Protección de datos personales.",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "15/12/2025",
+      "solicitante": "***",
+      "resumen": "Información sobre retribuciones y compatibilidad de director de departamento",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 dias",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Protección de datos personales.",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "17/12/2025",
+      "solicitante": "***",
+      "resumen": "Conocer las notas medias más altas del grado de derecho del curso 2025-26.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "19 dias",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "nan",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "18/12/2025",
+      "solicitante": "***",
+      "resumen": "Normativa de evaluación de asignaturas en la Facultad de Medicina.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "18 dias",
+      "sentido_resolucion": "Parcialmente favorable",
+      "motivo_denegacion": "Falta de objeto, obligación de hacer e información reiterada",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "22/12/2025",
+      "solicitante": "Fabio Antonio Pascua Mateo",
+      "resumen": "Información sobre retribuciones de PDI funcionario a tiempo parcial.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "20 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "nan",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "23/12/2025",
+      "solicitante": "***",
+      "resumen": "Número de plazas convocadas de PDI en los años 2016 a 2020 y 2025.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "19 dias",
+      "sentido_resolucion": "Desfavorable",
+      "motivo_denegacion": "Falta de objeto",
+      "consejo_transparencia": ""
+    },
+    {
+      "expediente": "",
+      "fecha_entrada": "24/12/2025",
+      "solicitante": "***",
+      "resumen": "Infomación sobre un expediente administrativo.",
+      "forma_acceso": "Electrónica",
+      "via_contacto": "Correo electrónico",
+      "tiempo_resolucion": "16 días",
+      "sentido_resolucion": "Favorable",
+      "motivo_denegacion": "nan",
+      "consejo_transparencia": ""
+    }
+  ]
+};
         const coloresUCM = {
             principal: '#b71234',
             gris: '#979492',
@@ -442,39 +3711,10 @@
         };
 
         const datosSolicitudes = {
-            "2022": {
-                "total": 56,
-                "favorable": 40,
-                "parcialmente_favorable": 4,
-                "desfavorable": 10,
-                "inadmision": 2
-            },
-            "2023": {
-                "total": 66,
-                "favorable": 49,
-                "parcialmente_favorable": 5,
-                "desfavorable": 11,
-                "inadmision": 1
-            },
-            "2024": {
-                "total": 86,
-                "favorable": 52,
-                "parcialmente_favorable": 8,
-                "desfavorable": 21,
-                "inadmision": 5
-            },
-            "2025": {
-                "total": 67,
-                "favorable": 43,
-                "parcialmente_favorable": 8,
-                "desfavorable": 10,
-                "inadmision": 6
-            }
-        };
-
-        // Datos completos para la tabla (simulados - se cargarían de los archivos)
-        const datosCompletos = {
-            "2025": [] // Se llenará con datos reales
+            "2022": { "total": 56, "favorable": 40, "parcialmente_favorable": 4, "desfavorable": 10, "inadmision": 2 },
+            "2023": { "total": 66, "favorable": 49, "parcialmente_favorable": 5, "desfavorable": 11, "inadmision": 1 },
+            "2024": { "total": 86, "favorable": 52, "parcialmente_favorable": 8, "desfavorable": 21, "inadmision": 5 },
+            "2025": { "total": 67, "favorable": 43, "parcialmente_favorable": 8, "desfavorable": 10, "inadmision": 6 }
         };
 
         let chart = null;
@@ -485,9 +3725,7 @@
 
         function init() {
             actualizarVisualizacion();
-            
             yearSelect.addEventListener('change', actualizarVisualizacion);
-            
             viewToggles.forEach(toggle => {
                 toggle.addEventListener('click', () => {
                     viewToggles.forEach(t => t.classList.remove('active'));
@@ -496,7 +3734,6 @@
                     actualizarGrafico();
                 });
             });
-
             document.getElementById('downloadExcelBtn').addEventListener('click', descargarExcel);
             document.getElementById('downloadCsvBtn').addEventListener('click', descargarCSV);
         }
@@ -542,19 +3779,15 @@
         function actualizarGrafico() {
             const year = yearSelect.value;
             const datos = datosSolicitudes[year];
-            
             if (chart) chart.destroy();
-
             const ctx = document.getElementById('mainChart').getContext('2d');
             let config = {};
-            
             switch(currentView) {
                 case 'bar': config = crearGraficoBarras(datos); break;
                 case 'pie': config = crearGraficoPie(datos); break;
                 case 'line': config = crearGraficoLinea(); break;
                 case 'percentage': config = crearGraficoPorcentaje(datos); break;
             }
-            
             chart = new Chart(ctx, config);
         }
 
@@ -566,18 +3799,8 @@
                     datasets: [{
                         label: 'Número de Solicitudes',
                         data: [datos.favorable, datos.parcialmente_favorable, datos.desfavorable, datos.inadmision],
-                        backgroundColor: [
-                            'rgba(40, 167, 69, 0.7)',
-                            'rgba(155, 137, 66, 0.7)',
-                            'rgba(183, 18, 52, 0.7)',
-                            'rgba(151, 148, 146, 0.7)'
-                        ],
-                        borderColor: [
-                            '#28a745',
-                            coloresUCM.dorado,
-                            coloresUCM.principal,
-                            coloresUCM.gris
-                        ],
+                        backgroundColor: ['rgba(40, 167, 69, 0.7)', 'rgba(155, 137, 66, 0.7)', 'rgba(183, 18, 52, 0.7)', 'rgba(151, 148, 146, 0.7)'],
+                        borderColor: ['#28a745', coloresUCM.dorado, coloresUCM.principal, coloresUCM.gris],
                         borderWidth: 2
                     }]
                 },
@@ -586,18 +3809,9 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: { display: false },
-                        title: {
-                            display: true,
-                            text: `Solicitudes de Transparencia ${yearSelect.value}`,
-                            font: { size: 18, weight: 'bold' }
-                        }
+                        title: { display: true, text: `Solicitudes de Transparencia ${yearSelect.value}`, font: { size: 18, weight: 'bold' } }
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { stepSize: 5 }
-                        }
-                    }
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 5 } } }
                 }
             };
         }
@@ -609,12 +3823,7 @@
                     labels: ['Favorable', 'Parcialmente Favorable', 'Desfavorable', 'Inadmisión'],
                     datasets: [{
                         data: [datos.favorable, datos.parcialmente_favorable, datos.desfavorable, datos.inadmision],
-                        backgroundColor: [
-                            'rgba(40, 167, 69, 0.8)',
-                            'rgba(155, 137, 66, 0.8)',
-                            'rgba(183, 18, 52, 0.8)',
-                            'rgba(151, 148, 146, 0.8)'
-                        ],
+                        backgroundColor: ['rgba(40, 167, 69, 0.8)', 'rgba(155, 137, 66, 0.8)', 'rgba(183, 18, 52, 0.8)', 'rgba(151, 148, 146, 0.8)'],
                         borderColor: '#fff',
                         borderWidth: 3
                     }]
@@ -623,15 +3832,8 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            position: 'right',
-                            labels: { font: { size: 14 }, padding: 20 }
-                        },
-                        title: {
-                            display: true,
-                            text: `Distribución de Resoluciones ${yearSelect.value}`,
-                            font: { size: 18, weight: 'bold' }
-                        },
+                        legend: { position: 'right', labels: { font: { size: 14 }, padding: 20 } },
+                        title: { display: true, text: `Distribución de Resoluciones ${yearSelect.value}`, font: { size: 18, weight: 'bold' } },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
@@ -658,42 +3860,10 @@
                 data: {
                     labels: years,
                     datasets: [
-                        {
-                            label: 'Favorable',
-                            data: favorable,
-                            borderColor: '#28a745',
-                            backgroundColor: 'rgba(40, 167, 69, 0.2)',
-                            borderWidth: 3,
-                            tension: 0.4,
-                            fill: true
-                        },
-                        {
-                            label: 'Parcialmente Favorable',
-                            data: parcial,
-                            borderColor: coloresUCM.dorado,
-                            backgroundColor: 'rgba(155, 137, 66, 0.2)',
-                            borderWidth: 3,
-                            tension: 0.4,
-                            fill: true
-                        },
-                        {
-                            label: 'Desfavorable',
-                            data: desfavorable,
-                            borderColor: coloresUCM.principal,
-                            backgroundColor: 'rgba(183, 18, 52, 0.2)',
-                            borderWidth: 3,
-                            tension: 0.4,
-                            fill: true
-                        },
-                        {
-                            label: 'Inadmisión',
-                            data: inadmision,
-                            borderColor: coloresUCM.gris,
-                            backgroundColor: 'rgba(151, 148, 146, 0.2)',
-                            borderWidth: 3,
-                            tension: 0.4,
-                            fill: true
-                        }
+                        { label: 'Favorable', data: favorable, borderColor: '#28a745', backgroundColor: 'rgba(40, 167, 69, 0.2)', borderWidth: 3, tension: 0.4, fill: true },
+                        { label: 'Parcialmente Favorable', data: parcial, borderColor: coloresUCM.dorado, backgroundColor: 'rgba(155, 137, 66, 0.2)', borderWidth: 3, tension: 0.4, fill: true },
+                        { label: 'Desfavorable', data: desfavorable, borderColor: coloresUCM.principal, backgroundColor: 'rgba(183, 18, 52, 0.2)', borderWidth: 3, tension: 0.4, fill: true },
+                        { label: 'Inadmisión', data: inadmision, borderColor: coloresUCM.gris, backgroundColor: 'rgba(151, 148, 146, 0.2)', borderWidth: 3, tension: 0.4, fill: true }
                     ]
                 },
                 options: {
@@ -701,18 +3871,9 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: { position: 'top', labels: { font: { size: 12 }, padding: 15 } },
-                        title: {
-                            display: true,
-                            text: 'Evolución Anual de Solicitudes (2022-2025)',
-                            font: { size: 18, weight: 'bold' }
-                        }
+                        title: { display: true, text: 'Evolución Anual de Solicitudes (2022-2025)', font: { size: 18, weight: 'bold' } }
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { stepSize: 5 }
-                        }
-                    }
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 5 } } }
                 }
             };
         }
@@ -732,18 +3893,8 @@
                     datasets: [{
                         label: 'Porcentaje (%)',
                         data: porcentajes,
-                        backgroundColor: [
-                            'rgba(40, 167, 69, 0.7)',
-                            'rgba(155, 137, 66, 0.7)',
-                            'rgba(183, 18, 52, 0.7)',
-                            'rgba(151, 148, 146, 0.7)'
-                        ],
-                        borderColor: [
-                            '#28a745',
-                            coloresUCM.dorado,
-                            coloresUCM.principal,
-                            coloresUCM.gris
-                        ],
+                        backgroundColor: ['rgba(40, 167, 69, 0.7)', 'rgba(155, 137, 66, 0.7)', 'rgba(183, 18, 52, 0.7)', 'rgba(151, 148, 146, 0.7)'],
+                        borderColor: ['#28a745', coloresUCM.dorado, coloresUCM.principal, coloresUCM.gris],
                         borderWidth: 2
                     }]
                 },
@@ -752,23 +3903,9 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: { display: false },
-                        title: {
-                            display: true,
-                            text: `Distribución Porcentual ${yearSelect.value}`,
-                            font: { size: 18, weight: 'bold' }
-                        }
+                        title: { display: true, text: `Distribución Porcentual ${yearSelect.value}`, font: { size: 18, weight: 'bold' } }
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: {
-                                callback: function(value) {
-                                    return value + '%';
-                                }
-                            }
-                        }
-                    }
+                    scales: { y: { beginAtZero: true, max: 100, ticks: { callback: function(value) { return value + '%'; } } } }
                 }
             };
         }
@@ -777,27 +3914,51 @@
             const year = yearSelect.value;
             document.getElementById('yearTitle').textContent = year;
             
-            // Nota: Aquí se cargarían los datos reales del año seleccionado
+            const registros = datosCompletosDetallados[year] || [];
             const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px;">Los datos detallados se descargan con los botones de Excel o CSV</td></tr>';
+            
+            if (registros.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 30px;">No hay datos disponibles</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = registros.map((reg, idx) => {
+                const sentido = reg.sentido_resolucion.toLowerCase().replace(/\s+/g, '_');
+                let badgeClass = 'inadmision';
+                if (sentido.includes('favorable') && !sentido.includes('parcial')) badgeClass = 'favorable';
+                else if (sentido.includes('parcial')) badgeClass = 'parcial';
+                else if (sentido.includes('desfavorable')) badgeClass = 'desfavorable';
+
+                return `
+                    <tr>
+                        <td>${reg.expediente || (idx + 1) + '/' + year}</td>
+                        <td>${reg.fecha_entrada}</td>
+                        <td>${reg.resumen}</td>
+                        <td>${reg.forma_acceso}</td>
+                        <td>${reg.tiempo_resolucion}</td>
+                        <td><span class="badge ${badgeClass}">${reg.sentido_resolucion}</span></td>
+                        <td style="text-align: center;">${reg.consejo_transparencia}</td>
+                    </tr>
+                `;
+            }).join('');
         }
 
         function descargarCSV() {
             const year = yearSelect.value;
-            const datos = datosSolicitudes[year];
+            const registros = datosCompletosDetallados[year] || [];
             
-            let csv = 'Tipo de Resolución,Cantidad,Porcentaje\n';
-            csv += `Favorable,${datos.favorable},${((datos.favorable / datos.total) * 100).toFixed(2)}%\n`;
-            csv += `Parcialmente Favorable,${datos.parcialmente_favorable},${((datos.parcialmente_favorable / datos.total) * 100).toFixed(2)}%\n`;
-            csv += `Desfavorable,${datos.desfavorable},${((datos.desfavorable / datos.total) * 100).toFixed(2)}%\n`;
-            csv += `Inadmisión,${datos.inadmision},${((datos.inadmision / datos.total) * 100).toFixed(2)}%\n`;
-            csv += `\nTotal,${datos.total},100%\n`;
+            let csv = 'Nº Expediente,Fecha Entrada,Solicitante,Resumen,Forma Acceso,Vía Contacto,Tiempo Resolución,Sentido Resolución,Motivo Denegación,Consejo Transparencia\n';
             
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            registros.forEach((reg, idx) => {
+                const exp = reg.expediente || ((idx + 1) + '/' + year);
+                csv += `"${exp}","${reg.fecha_entrada}","${reg.solicitante}","${reg.resumen}","${reg.forma_acceso}","${reg.via_contacto}","${reg.tiempo_resolucion}","${reg.sentido_resolucion}","${reg.motivo_denegacion}","${reg.consejo_transparencia}"\n`;
+            });
+            
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);
             link.setAttribute('href', url);
-            link.setAttribute('download', `Solicitudes_Transparencia_${year}.csv`);
+            link.setAttribute('download', `RegistroSolicitudes_${year}_Web.csv`);
             link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
@@ -806,25 +3967,49 @@
 
         function descargarExcel() {
             const year = yearSelect.value;
-            const datos = datosSolicitudes[year];
+            const registros = datosCompletosDetallados[year] || [];
             
             const dataArray = [
-                ['Registro de Solicitudes de Transparencia UCM - ' + year],
-                [],
-                ['Tipo de Resolución', 'Cantidad', 'Porcentaje'],
-                ['Favorable', datos.favorable, ((datos.favorable / datos.total) * 100).toFixed(2) + '%'],
-                ['Parcialmente Favorable', datos.parcialmente_favorable, ((datos.parcialmente_favorable / datos.total) * 100).toFixed(2) + '%'],
-                ['Desfavorable', datos.desfavorable, ((datos.desfavorable / datos.total) * 100).toFixed(2) + '%'],
-                ['Inadmisión', datos.inadmision, ((datos.inadmision / datos.total) * 100).toFixed(2) + '%'],
-                [],
-                ['Total', datos.total, '100%']
+                ['Nº Expediente', 'Fecha de entrada', 'Solicitante (sólo con consentimiento expreso)', 'Resumen de lo solicitado', 'Forma de acceso', 'Vía de contacto (sólo con consentimiento expreso)', 'Tiempo de resolución (en días hábiles) - suspensión', 'Sentido de la resolución', 'Motivo denegación acceso', 'Consejo Transparencia']
             ];
             
+            registros.forEach((reg, idx) => {
+                const exp = reg.expediente || ((idx + 1) + '/' + year);
+                dataArray.push([
+                    exp,
+                    reg.fecha_entrada,
+                    reg.solicitante,
+                    reg.resumen,
+                    reg.forma_acceso,
+                    reg.via_contacto,
+                    reg.tiempo_resolucion,
+                    reg.sentido_resolucion,
+                    reg.motivo_denegacion,
+                    reg.consejo_transparencia
+                ]);
+            });
+            
             const ws = XLSX.utils.aoa_to_sheet(dataArray);
+            
+            // Ajustar anchos de columna
+            const colWidths = [
+                { wch: 12 }, // Nº Expediente
+                { wch: 12 }, // Fecha
+                { wch: 30 }, // Solicitante
+                { wch: 60 }, // Resumen
+                { wch: 12 }, // Forma acceso
+                { wch: 20 }, // Vía contacto
+                { wch: 15 }, // Tiempo
+                { wch: 20 }, // Sentido
+                { wch: 40 }, // Motivo
+                { wch: 15 }  // Consejo
+            ];
+            ws['!cols'] = colWidths;
+            
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, 'Solicitudes');
             
-            XLSX.writeFile(wb, `Solicitudes_Transparencia_${year}.xlsx`);
+            XLSX.writeFile(wb, `RegistroSolicitudes_${year}_Web.xlsx`);
         }
 
         init();
