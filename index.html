@@ -1,242 +1,54 @@
-import { useState, useMemo } from "react";
-import { Download } from "lucide-react";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
-import { solicitudes } from "@/data/solicitudes";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
-} from "@/components/ui/table";
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico Interactivo - Solicitudes</title>
+    <!-- Add any additional library for charts (e.g., Chart.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div style="width: 80%; margin: auto;">
+        <!-- Título del gráfico -->
+        <h1 style="text-align: center; color: #b71234;">Ejecución de Solicitudes - 2025</h1>
 
-const RESOLUTION_COLORS: Record<string, string> = {
-  "Favorable": "hsl(142, 71%, 45%)",
-  "Parcialmente favorable": "hsl(45, 93%, 47%)",
-  "Desfavorable": "hsl(0, 72%, 51%)",
-  "Inadmisión": "hsl(220, 9%, 56%)",
-};
+        <!-- Gráfico Interactivo -->
+        <canvas id="solicitudesChart"></canvas>
+        <script>
+            var ctx = document.getElementById('solicitudesChart').getContext('2d');
+            var solicitudesChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Favorable', 'Parcialmente Favorable', 'Desfavorable', 'Inadmitida'],
+                    datasets: [{
+                        label: 'Cantidad de Solicitudes',
+                        data: [<?php echo $favorables_count; ?>, <?php echo $parciales_count; ?>, <?php echo $desfavorables_count; ?>, <?php echo $inadmitidas_count; ?>],
+                        backgroundColor: ['#66bb6a', '#ffa726', '#ef5350', '#b71234'],
+                        borderColor: ['#4caf50', '#fb8c00', '#e53935', '#d32f2f'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
 
-const ITEMS_PER_PAGE = 10;
-
-const Index = () => {
-  const [page, setPage] = useState(0);
-
-  const chartData = useMemo(() => {
-    const counts: Record<string, number> = {};
-    solicitudes.forEach((s) => {
-      counts[s.sentidoResolucion] = (counts[s.sentidoResolucion] || 0) + 1;
-    });
-    return Object.entries(counts).map(([name, value]) => ({ name, value }));
-  }, []);
-
-  const total = solicitudes.length;
-  const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
-  const paged = solicitudes.slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE);
-
-  const downloadCSV = () => {
-    const headers = [
-      "Nº Expediente", "Fecha de entrada", "Solicitante", "Resumen",
-      "Forma de acceso", "Vía de contacto", "Tiempo de resolución",
-      "Sentido de la resolución", "Motivo denegación", "Consejo Transparencia",
-    ];
-    const rows = solicitudes.map((s) =>
-      [s.expediente, s.fechaEntrada, s.solicitante, s.resumen, s.formaAcceso, s.viaContacto, s.tiempoResolucion, s.sentidoResolucion, s.motivoDenegacion, s.consejoTransparencia]
-        .map((v) => `"${v.replace(/"/g, '""')}"`)
-        .join(",")
-    );
-    const csv = [headers.join(","), ...rows].join("\n");
-    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "solicitudes_transparencia_2025.csv";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const renderCustomLabel = ({ name, value, cx, x, y }: any) => {
-    const pct = ((value / total) * 100).toFixed(1);
-    return (
-      <text x={x} y={y} textAnchor={x > cx ? "start" : "end"} dominantBaseline="central" className="text-xs fill-foreground">
-        {name} ({pct}%)
-      </text>
-    );
-  };
-
-  return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b bg-card">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
-          <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
-            Registro de Solicitudes de Transparencia 2025
-          </h1>
-          <p className="mt-1 text-muted-foreground">
-            Panel interactivo · {total} solicitudes tramitadas
-          </p>
+        <!-- Enlaces debajo del gráfico -->
+        <div style="margin-top: 30px; text-align: center;">
+            <h3>Enlaces a las solicitudes:</h3>
+            <div>
+                <a href="https://github.com/tuusuario/tu-repositorio/situacion-favorable" target="_blank" style="text-decoration: none; padding: 10px 20px; background-color: #66bb6a; color: white; border-radius: 5px; font-weight: bold; margin: 10px;">Solicitudes Favorables</a>
+                <a href="https://github.com/tuusuario/tu-repositorio/situacion-parcialmente-favorable" target="_blank" style="text-decoration: none; padding: 10px 20px; background-color: #ffa726; color: white; border-radius: 5px; font-weight: bold; margin: 10px;">Solicitudes Parcialmente Favorables</a>
+                <a href="https://github.com/tuusuario/tu-repositorio/situacion-desfavorable" target="_blank" style="text-decoration: none; padding: 10px 20px; background-color: #ef5350; color: white; border-radius: 5px; font-weight: bold; margin: 10px;">Solicitudes Desfavorables</a>
+                <a href="https://github.com/tuusuario/tu-repositorio/situacion-inadmitida" target="_blank" style="text-decoration: none; padding: 10px 20px; background-color: #b71234; color: white; border-radius: 5px; font-weight: bold; margin: 10px;">Solicitudes Inadmitidas</a>
+            </div>
         </div>
-      </header>
-
-      <main className="mx-auto max-w-7xl space-y-8 px-4 py-8 sm:px-6">
-        {/* Chart Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Resoluciones por tipo</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-6 md:grid-cols-2">
-              {/* Pie Chart */}
-              <div className="h-[320px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={chartData}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={100}
-                      dataKey="value"
-                      label={renderCustomLabel}
-                      labelLine
-                    >
-                      {chartData.map((entry) => (
-                        <Cell key={entry.name} fill={RESOLUTION_COLORS[entry.name] || "hsl(var(--muted))"} />
-                      ))}
-                    </Pie>
-                    <Tooltip
-                      formatter={(value: number, name: string) => [
-                        `${value} (${((value / total) * 100).toFixed(1)}%)`,
-                        name,
-                      ]}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-
-              {/* Bar Chart */}
-              <div className="h-[320px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={chartData} layout="vertical" margin={{ left: 140 }}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis type="number" />
-                    <YAxis type="category" dataKey="name" tick={{ fontSize: 13 }} width={130} />
-                    <Tooltip
-                      formatter={(value: number, name: string) => [
-                        `${value} (${((value / total) * 100).toFixed(1)}%)`,
-                        "Solicitudes",
-                      ]}
-                    />
-                    <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                      {chartData.map((entry) => (
-                        <Cell key={entry.name} fill={RESOLUTION_COLORS[entry.name] || "hsl(var(--muted))"} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Summary cards */}
-            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {chartData.map((d) => (
-                <div
-                  key={d.name}
-                  className="rounded-lg border p-3 text-center"
-                  style={{ borderLeftColor: RESOLUTION_COLORS[d.name], borderLeftWidth: 4 }}
-                >
-                  <p className="text-2xl font-bold" style={{ color: RESOLUTION_COLORS[d.name] }}>{d.value}</p>
-                  <p className="text-xs text-muted-foreground">{d.name}</p>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Table Section */}
-        <Card>
-          <CardHeader className="flex-row items-center justify-between space-y-0">
-            <CardTitle>Detalle de solicitudes</CardTitle>
-            <Button onClick={downloadCSV} variant="outline" size="sm">
-              <Download className="mr-2 h-4 w-4" />
-              Descargar CSV
-            </Button>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="whitespace-nowrap">Nº Exp.</TableHead>
-                    <TableHead className="whitespace-nowrap">Fecha entrada</TableHead>
-                    <TableHead>Solicitante</TableHead>
-                    <TableHead className="min-w-[250px]">Resumen</TableHead>
-                    <TableHead className="whitespace-nowrap">Forma acceso</TableHead>
-                    <TableHead>Vía contacto</TableHead>
-                    <TableHead className="whitespace-nowrap">Tiempo resolución</TableHead>
-                    <TableHead className="whitespace-nowrap">Resolución</TableHead>
-                    <TableHead className="min-w-[200px]">Motivo denegación</TableHead>
-                    <TableHead className="whitespace-nowrap">Consejo Transp.</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {paged.map((s) => (
-                    <TableRow key={s.expediente}>
-                      <TableCell className="whitespace-nowrap font-medium">{s.expediente}</TableCell>
-                      <TableCell className="whitespace-nowrap">{s.fechaEntrada}</TableCell>
-                      <TableCell>{s.solicitante}</TableCell>
-                      <TableCell className="text-sm">{s.resumen}</TableCell>
-                      <TableCell>{s.formaAcceso}</TableCell>
-                      <TableCell className="text-sm">{s.viaContacto}</TableCell>
-                      <TableCell className="whitespace-nowrap">{s.tiempoResolucion}</TableCell>
-                      <TableCell>
-                        <span
-                          className="inline-block whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium text-white"
-                          style={{ backgroundColor: RESOLUTION_COLORS[s.sentidoResolucion] || "hsl(var(--muted))" }}
-                        >
-                          {s.sentidoResolucion}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-sm">{s.motivoDenegacion || "—"}</TableCell>
-                      <TableCell>
-                        {s.consejoTransparenciaUrl ? (
-                          <a
-                            href={s.consejoTransparenciaUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary underline hover:text-primary/80"
-                          >
-                            {s.consejoTransparencia}
-                          </a>
-                        ) : (
-                          s.consejoTransparencia
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-
-            {/* Pagination */}
-            <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
-              <span>
-                Mostrando {page * ITEMS_PER_PAGE + 1}–{Math.min((page + 1) * ITEMS_PER_PAGE, total)} de {total}
-              </span>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage(page - 1)}>
-                  Anterior
-                </Button>
-                <Button variant="outline" size="sm" disabled={page >= totalPages - 1} onClick={() => setPage(page + 1)}>
-                  Siguiente
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </main>
-
-      <footer className="border-t py-4 text-center text-xs text-muted-foreground">
-        © 2025 · Registro de Solicitudes de Transparencia
-      </footer>
     </div>
-  );
-};
-
-export default Index;
+</body>
+</html>
