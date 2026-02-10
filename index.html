@@ -3,16 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gráfico Interactivo - Solicitudes</title>
+    <title>Gráfico Interactivo y Tabla de Solicitudes</title>
+    <!-- Add any additional library for charts (Chart.js) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding-top: 30px;
+        }
+        .chart-container {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h1 {
+            color: #b71234;
+        }
+        .chart-box {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .table-container {
+            margin-top: 30px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        table th {
+            background-color: #b71234;
+            color: white;
+        }
+        .button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #66bb6a;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            margin: 5px;
+        }
+        .button:hover {
+            background-color: #4caf50;
+        }
+    </style>
 </head>
 <body>
-    <div style="width: 80%; margin: auto;">
-        <!-- Título del gráfico -->
-        <h1 style="text-align: center; color: #b71234;">Ejecución de Solicitudes - 2025</h1>
+    <div class="container">
+        <h1>Ejecución de Solicitudes - 2025</h1>
 
-        <!-- Gráfico Interactivo -->
-        <canvas id="solicitudesChart"></canvas>
+        <!-- Gráfico 1: Ejecución de Solicitudes -->
+        <div class="chart-container">
+            <div class="chart-box">
+                <h3>Ejecución de Solicitudes por Categoría</h3>
+                <canvas id="solicitudesChart"></canvas>
+            </div>
+        </div>
+
         <script>
             var ctx = document.getElementById('solicitudesChart').getContext('2d');
             var solicitudesChart = new Chart(ctx, {
@@ -38,15 +107,58 @@
             });
         </script>
 
-        <!-- Enlaces debajo del gráfico -->
-        <div style="margin-top: 30px; text-align: center;">
-            <h3>Enlaces a las solicitudes:</h3>
-            <div>
-                <a href="https://github.com/tuusuario/tu-repositorio/situacion-favorable" target="_blank" style="text-decoration: none; padding: 10px 20px; background-color: #66bb6a; color: white; border-radius: 5px; font-weight: bold; margin: 10px;">Solicitudes Favorables</a>
-                <a href="https://github.com/tuusuario/tu-repositorio/situacion-parcialmente-favorable" target="_blank" style="text-decoration: none; padding: 10px 20px; background-color: #ffa726; color: white; border-radius: 5px; font-weight: bold; margin: 10px;">Solicitudes Parcialmente Favorables</a>
-                <a href="https://github.com/tuusuario/tu-repositorio/situacion-desfavorable" target="_blank" style="text-decoration: none; padding: 10px 20px; background-color: #ef5350; color: white; border-radius: 5px; font-weight: bold; margin: 10px;">Solicitudes Desfavorables</a>
-                <a href="https://github.com/tuusuario/tu-repositorio/situacion-inadmitida" target="_blank" style="text-decoration: none; padding: 10px 20px; background-color: #b71234; color: white; border-radius: 5px; font-weight: bold; margin: 10px;">Solicitudes Inadmitidas</a>
-            </div>
+        <!-- Tabla de datos -->
+        <div class="table-container">
+            <h3>Datos de Solicitudes</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nº Expediente</th>
+                        <th>Fecha de Entrada</th>
+                        <th>Solicitante</th>
+                        <th>Resumen de lo Solicitado</th>
+                        <th>Sentido de la Resolución</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1/2025</td>
+                        <td>14/01/2025</td>
+                        <td>***</td>
+                        <td>Copia de exámenes para proceso PTGAS laboral</td>
+                        <td>Favorable</td>
+                    </tr>
+                    <tr>
+                        <td>2/2025</td>
+                        <td>21/01/2025</td>
+                        <td>***</td>
+                        <td>Convocatorias y actas de cinco Comisiones Mixtas</td>
+                        <td>Desfavorable</td>
+                    </tr>
+                    <tr>
+                        <td>3/2025</td>
+                        <td>24/01/2025</td>
+                        <td>***</td>
+                        <td>Información sobre proyectos de investigación</td>
+                        <td>Inadmisión</td>
+                    </tr>
+                    <tr>
+                        <td>4/2025</td>
+                        <td>13/02/2025</td>
+                        <td>***</td>
+                        <td>Copia de convenio de CE Consulting</td>
+                        <td>Favorable</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Enlaces a solicitudes -->
+        <div class="button-container">
+            <a href="https://github.com/tuusuario/tu-repositorio/situacion-favorable" class="button">Solicitudes Favorables</a>
+            <a href="https://github.com/tuusuario/tu-repositorio/situacion-parcialmente-favorable" class="button">Solicitudes Parcialmente Favorables</a>
+            <a href="https://github.com/tuusuario/tu-repositorio/situacion-desfavorable" class="button">Solicitudes Desfavorables</a>
+            <a href="https://github.com/tuusuario/tu-repositorio/situacion-inadmitida" class="button">Solicitudes Inadmitidas</a>
         </div>
     </div>
 </body>
