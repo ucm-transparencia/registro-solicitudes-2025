@@ -21,7 +21,7 @@
         }
         
         .container {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
             background: white;
             border-radius: 12px;
@@ -229,8 +229,8 @@
         }
 
         .table-wrapper {
-            max-height: 600px;
-            overflow-y: auto;
+            max-height: 700px;
+            overflow: auto;
             border: 1px solid #dee2e6;
             border-radius: 8px;
         }
@@ -239,6 +239,7 @@
             width: 100%;
             border-collapse: collapse;
             background: white;
+            font-size: 13px;
         }
 
         thead {
@@ -250,19 +251,21 @@
         }
 
         th {
-            padding: 15px 10px;
+            padding: 12px 8px;
             text-align: left;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
         }
 
         td {
-            padding: 12px 10px;
+            padding: 10px 8px;
             border-bottom: 1px solid #e9ecef;
-            font-size: 13px;
+            font-size: 12.5px;
             vertical-align: top;
+            line-height: 1.4;
         }
 
         tbody tr:hover {
@@ -273,11 +276,15 @@
             background: #fafafa;
         }
 
+        tbody tr:nth-child(even):hover {
+            background: #f0f0f0;
+        }
+
         .badge {
             display: inline-block;
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 12px;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 600;
             text-transform: uppercase;
             white-space: nowrap;
@@ -287,6 +294,17 @@
         .badge.parcial { background: #fff3cd; color: #856404; }
         .badge.desfavorable { background: #f8d7da; color: #721c24; }
         .badge.inadmision { background: #e2e3e5; color: #383d41; }
+
+        .consejo-link {
+            color: #b71234;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .consejo-link:hover {
+            text-decoration: underline;
+        }
         
         .footer {
             padding: 20px 30px;
@@ -302,6 +320,29 @@
             font-weight: 600;
         }
 
+        /* Accesibilidad mejorada */
+        td, th {
+            min-width: 80px;
+        }
+
+        td:nth-child(3), /* Resumen */
+        td:nth-child(9) { /* Motivo denegación */
+            min-width: 200px;
+            max-width: 350px;
+        }
+
+        /* Columnas específicas */
+        th:nth-child(1), td:nth-child(1) { width: 90px; } /* Nº Expediente */
+        th:nth-child(2), td:nth-child(2) { width: 95px; } /* Fecha */
+        th:nth-child(3), td:nth-child(3) { width: 150px; } /* Solicitante */
+        th:nth-child(4), td:nth-child(4) { width: 300px; } /* Resumen */
+        th:nth-child(5), td:nth-child(5) { width: 100px; } /* Forma acceso */
+        th:nth-child(6), td:nth-child(6) { width: 140px; } /* Vía contacto */
+        th:nth-child(7), td:nth-child(7) { width: 110px; } /* Tiempo */
+        th:nth-child(8), td:nth-child(8) { width: 150px; } /* Sentido */
+        th:nth-child(9), td:nth-child(9) { width: 250px; } /* Motivo */
+        th:nth-child(10), td:nth-child(10) { width: 120px; } /* Consejo */
+
         @media (max-width: 768px) {
             .header h1 { font-size: 22px; }
             .control-group { grid-template-columns: 1fr; }
@@ -310,7 +351,7 @@
             .download-btn { width: 100%; justify-content: center; }
             .table-container { padding: 15px; }
             table { font-size: 11px; }
-            th, td { padding: 8px 5px; }
+            th, td { padding: 6px 4px; }
         }
     </style>
 </head>
@@ -368,18 +409,21 @@
         <div class="stats-grid" id="statsGrid"></div>
 
         <div class="table-container">
-            <h2>📄 Detalle de Solicitudes <span id="yearTitle"></span></h2>
+            <h2>📄 Detalle Completo de Solicitudes <span id="yearTitle"></span></h2>
             <div class="table-wrapper">
                 <table id="dataTable">
                     <thead>
                         <tr>
-                            <th style="width: 80px;">Nº Expte.</th>
-                            <th style="width: 100px;">Fecha</th>
-                            <th>Resumen de la Solicitud</th>
-                            <th style="width: 100px;">Forma Acceso</th>
-                            <th style="width: 100px;">Tiempo Res.</th>
-                            <th style="width: 140px;">Sentido Resolución</th>
-                            <th style="width: 80px;">Consejo</th>
+                            <th>Nº Expediente</th>
+                            <th>Fecha Entrada</th>
+                            <th>Solicitante</th>
+                            <th>Resumen de lo Solicitado</th>
+                            <th>Forma de Acceso</th>
+                            <th>Vía de Contacto</th>
+                            <th>Tiempo Resolución</th>
+                            <th>Sentido Resolución</th>
+                            <th>Motivo Denegación Acceso</th>
+                            <th>Consejo Transparencia</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody"></tbody>
@@ -3910,6 +3954,31 @@ const datosCompletosDetallados = {
             };
         }
 
+        function extraerEnlaceConsejo(texto) {
+            if (!texto || texto === 'NO' || texto === '***' || texto.trim() === '') {
+                return { texto: 'NO', enlace: null };
+            }
+            
+            // Buscar patrón "SÍ (RDA CTPCM XXX/XXXX)" o similar
+            const match = texto.match(/SÍ.*?\((.+?)\)/i) || texto.match(/SI.*?\((.+?)\)/i);
+            
+            if (match) {
+                const referencia = match[1].trim();
+                // Intentar extraer número de expediente
+                const numMatch = referencia.match(/(\d+\/\d+)/);
+                if (numMatch) {
+                    return {
+                        texto: `SÍ (${referencia})`,
+                        enlace: null, // Aquí se podría construir URL si existe patrón
+                        referencia: referencia
+                    };
+                }
+                return { texto: texto, enlace: null };
+            }
+            
+            return { texto: texto.trim(), enlace: null };
+        }
+
         function actualizarTabla() {
             const year = yearSelect.value;
             document.getElementById('yearTitle').textContent = year;
@@ -3918,7 +3987,7 @@ const datosCompletosDetallados = {
             const tbody = document.getElementById('tableBody');
             
             if (registros.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 30px;">No hay datos disponibles</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 30px;">No hay datos disponibles</td></tr>';
                 return;
             }
 
@@ -3929,15 +3998,25 @@ const datosCompletosDetallados = {
                 else if (sentido.includes('parcial')) badgeClass = 'parcial';
                 else if (sentido.includes('desfavorable')) badgeClass = 'desfavorable';
 
+                const expediente = reg.expediente || ((idx + 1) + '/' + year);
+                const consejoInfo = extraerEnlaceConsejo(reg.consejo_transparencia);
+                
+                const consejoHTML = consejoInfo.enlace 
+                    ? `<a href="${consejoInfo.enlace}" class="consejo-link" target="_blank" rel="noopener">${consejoInfo.texto}</a>`
+                    : consejoInfo.texto;
+
                 return `
                     <tr>
-                        <td>${reg.expediente || (idx + 1) + '/' + year}</td>
+                        <td>${expediente}</td>
                         <td>${reg.fecha_entrada}</td>
+                        <td>${reg.solicitante}</td>
                         <td>${reg.resumen}</td>
                         <td>${reg.forma_acceso}</td>
+                        <td>${reg.via_contacto}</td>
                         <td>${reg.tiempo_resolucion}</td>
                         <td><span class="badge ${badgeClass}">${reg.sentido_resolucion}</span></td>
-                        <td style="text-align: center;">${reg.consejo_transparencia}</td>
+                        <td>${reg.motivo_denegacion}</td>
+                        <td>${consejoHTML}</td>
                     </tr>
                 `;
             }).join('');
@@ -3947,7 +4026,7 @@ const datosCompletosDetallados = {
             const year = yearSelect.value;
             const registros = datosCompletosDetallados[year] || [];
             
-            let csv = 'Nº Expediente,Fecha Entrada,Solicitante,Resumen,Forma Acceso,Vía Contacto,Tiempo Resolución,Sentido Resolución,Motivo Denegación,Consejo Transparencia\n';
+            let csv = 'Nº Expediente ,Fecha de entrada,Solicitante (sólo con consentimiento expreso),Resumen de lo solicitado,Forma de acceso,Vía de contacto (sólo con consentimiento expreso),Tiempo de resolución (en días hábiles) - suspensión,Sentido de la resolución,Motivo denegación acceso,Consejo Transparencia\n';
             
             registros.forEach((reg, idx) => {
                 const exp = reg.expediente || ((idx + 1) + '/' + year);
@@ -3958,7 +4037,7 @@ const datosCompletosDetallados = {
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);
             link.setAttribute('href', url);
-            link.setAttribute('download', `RegistroSolicitudes_${year}_Web.csv`);
+            link.setAttribute('download', `RegistroSolictudes_${year}_Web.csv`);
             link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
@@ -3970,7 +4049,7 @@ const datosCompletosDetallados = {
             const registros = datosCompletosDetallados[year] || [];
             
             const dataArray = [
-                ['Nº Expediente', 'Fecha de entrada', 'Solicitante (sólo con consentimiento expreso)', 'Resumen de lo solicitado', 'Forma de acceso', 'Vía de contacto (sólo con consentimiento expreso)', 'Tiempo de resolución (en días hábiles) - suspensión', 'Sentido de la resolución', 'Motivo denegación acceso', 'Consejo Transparencia']
+                ['Nº Expediente ', 'Fecha de entrada', 'Solicitante (sólo con consentimiento expreso)', 'Resumen de lo solicitado', 'Forma de acceso', 'Vía de contacto (sólo con consentimiento expreso)', 'Tiempo de resolución (en días hábiles) - suspensión', 'Sentido de la resolución', 'Motivo denegación acceso', year === '2022' || year === '2023' ? 'Consejo Transparencia CM' : 'Consejo Transparencia ']
             ];
             
             registros.forEach((reg, idx) => {
@@ -3993,23 +4072,23 @@ const datosCompletosDetallados = {
             
             // Ajustar anchos de columna
             const colWidths = [
-                { wch: 12 }, // Nº Expediente
-                { wch: 12 }, // Fecha
-                { wch: 30 }, // Solicitante
-                { wch: 60 }, // Resumen
-                { wch: 12 }, // Forma acceso
-                { wch: 20 }, // Vía contacto
-                { wch: 15 }, // Tiempo
-                { wch: 20 }, // Sentido
-                { wch: 40 }, // Motivo
-                { wch: 15 }  // Consejo
+                { wch: 14 },  // Nº Expediente
+                { wch: 13 },  // Fecha
+                { wch: 35 },  // Solicitante
+                { wch: 70 },  // Resumen
+                { wch: 14 },  // Forma acceso
+                { wch: 30 },  // Vía contacto
+                { wch: 45 },  // Tiempo
+                { wch: 22 },  // Sentido
+                { wch: 50 },  // Motivo
+                { wch: 30 }   // Consejo
             ];
             ws['!cols'] = colWidths;
             
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, 'Solicitudes');
             
-            XLSX.writeFile(wb, `RegistroSolicitudes_${year}_Web.xlsx`);
+            XLSX.writeFile(wb, `RegistroSolictudes_${year}_Web.xlsx`);
         }
 
         init();
