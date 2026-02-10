@@ -97,40 +97,125 @@
 
         .view-toggles {
             display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .view-toggle {
+            flex: 1;
+            min-width: 140px;
+            padding: 12px 20px;
+            border: 2px solid #dee2e6;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .view-toggle:hover {
+            border-color: #b71234;
+            background: #fff5f7;
+        }
+
+        .view-toggle.active {
+            background: #b71234;
+            color: white;
+            border-color: #b71234;
         }
 
         .table-container {
-            margin: 20px 0;
+            padding: 30px;
+            overflow-x: auto;
+            margin-top: 40px; /* Asegura que la tabla esté debajo de los gráficos */
+        }
+
+        .table-container h2 {
+            margin-bottom: 20px;
+            color: #2f2f2f;
+            font-size: 20px;
+        }
+
+        .table-wrapper {
+            max-height: 700px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            border: 1px solid #ddd;
+            background: white;
+            font-size: 13px;
         }
 
         th, td {
-            padding: 10px;
+            padding: 12px 8px;
             text-align: left;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
         }
 
         th {
-            background-color: #f1f1f1;
+            background-color: #b71234;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
+        td {
+            border-bottom: 1px solid #e9ecef;
         }
 
-        .table-wrapper {
-            max-height: 500px;
-            overflow-y: auto;
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        tbody tr:nth-child(even):hover {
+            background-color: #f0f0f0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 10.5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .badge.favorable { background: #d4edda; color: #155724; }
+        .badge.parcial { background: #fff3cd; color: #856404; }
+        .badge.desfavorable { background: #f8d7da; color: #721c24; }
+        .badge.inadmision { background: #e2e3e5; color: #383d41; }
+
+        .consejo-link {
+            color: #b71234;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .consejo-link:hover {
+            text-decoration: underline;
         }
 
         .footer {
-            background-color: #f8f9fa;
+            padding: 20px 30px;
+            background: #f8f9fa;
             text-align: center;
-            padding: 20px;
             font-size: 14px;
         }
 
@@ -145,12 +230,25 @@
 
     <div class="container">
         <div class="header">
-            <h1>Registro de Solicitudes de Transparencia - UCM</h1>
-            <p>Solicitudes y detalles relacionados con el portal de transparencia.</p>
+            <h1>📋 Registro de Solicitudes de Transparencia</h1>
+            <p>Universidad Complutense de Madrid</p>
+        </div>
+
+        <div class="controls">
+            <div class="view-toggles">
+                <button class="view-toggle active" data-view="bar">📊 Barras</button>
+                <button class="view-toggle" data-view="pie">🥧 Circular</button>
+                <button class="view-toggle" data-view="line">📈 Evolución Anual</button>
+                <button class="view-toggle" data-view="percentage">📊 Porcentajes</button>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="mainChart"></canvas>
         </div>
 
         <div class="table-container">
-            <h2>📄 Detalle Completo de Solicitudes <span id="yearTitle"></span></h2>
+            <h2>📄 Detalle Completo de Solicitudes <span id="yearTitle">2025</span></h2>
             <div class="table-wrapper">
                 <table id="dataTable">
                     <thead>
@@ -168,7 +266,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        <!-- Dynamic data will be populated here -->
+                        <!-- Data will be populated dynamically here -->
                     </tbody>
                 </table>
             </div>
@@ -180,6 +278,68 @@
     </div>
 
     <script>
+        const ctx = document.getElementById('mainChart').getContext('2d');
+
+        const chartData = {
+            labels: ['Solicitudes Aprobadas', 'Solicitudes Denegadas', 'Solicitudes Parciales'],
+            datasets: [{
+                label: 'Solicitudes de Transparencia 2025',
+                data: [40, 30, 20], // Example data, you can update dynamically
+                backgroundColor: ['#28a745', '#dc3545', '#ffc107'],
+                borderColor: ['#28a745', '#dc3545', '#ffc107'],
+                borderWidth: 1
+            }]
+        };
+
+        let currentChartType = 'bar';
+        let mainChart = new Chart(ctx, {
+            type: currentChartType,
+            data: chartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        document.querySelectorAll('.view-toggle').forEach(button => {
+            button.addEventListener('click', (event) => {
+                document.querySelectorAll('.view-toggle').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                currentChartType = event.target.getAttribute('data-view');
+                mainChart.destroy();
+                mainChart = new Chart(ctx, {
+                    type: currentChartType,
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.dataset.label + ': ' + tooltipItem.raw + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        });
+
         const datosCompletosDetallados = {
             "2025": [
                 {
