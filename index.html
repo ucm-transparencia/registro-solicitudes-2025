@@ -7,366 +7,85 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8e8e8 100%);
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #b71234 0%, #8b0d27 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            font-size: 16px;
-            opacity: 0.95;
-        }
-        
-        .controls {
-            padding: 30px;
-            background: #f8f9fa;
-            border-bottom: 2px solid #e9ecef;
-        }
-        
-        .control-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .control-item {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .control-item label {
-            font-weight: 600;
-            color: #2f2f2f;
-            margin-bottom: 8px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .control-item select {
-            padding: 12px;
-            border: 2px solid #dee2e6;
-            border-radius: 8px;
-            font-size: 15px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .control-item select:hover {
-            border-color: #b71234;
-        }
-        
-        .control-item select:focus {
-            outline: none;
-            border-color: #b71234;
-            box-shadow: 0 0 0 3px rgba(183, 18, 52, 0.1);
-        }
-        
-        .view-toggles {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .view-toggle {
-            flex: 1;
-            min-width: 140px;
-            padding: 12px 20px;
-            border: 2px solid #dee2e6;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            text-align: center;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-        
-        .view-toggle:hover {
-            border-color: #b71234;
-            background: #fff5f7;
-        }
-        
-        .view-toggle.active {
-            background: #b71234;
-            color: white;
-            border-color: #b71234;
-        }
-
-        .download-section {
-            padding: 20px 30px;
-            background: #fff;
-            border-bottom: 2px solid #e9ecef;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .download-section h3 {
-            font-size: 16px;
-            color: #2f2f2f;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-
-        .download-btn {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #9B8942 0%, #8a7a3a 100%);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .download-btn:hover {
-            background: linear-gradient(135deg, #b5a363 0%, #9B8942 100%);
-            box-shadow: 0 4px 12px rgba(155, 137, 66, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .download-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-        
-        .chart-container {
-            padding: 30px;
-            position: relative;
-            height: 500px;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            padding: 20px 30px 30px;
-            background: #f8f9fa;
-        }
-        
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #e8e8e8 100%); padding: 20px; min-height: 100vh; }
+        .container { max-width: 100%; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #b71234 0%, #8b0d27 100%); color: white; padding: 30px; text-align: center; }
+        .header h1 { font-size: 28px; font-weight: 600; margin-bottom: 10px; }
+        .header p { font-size: 16px; opacity: 0.95; }
+        .controls { padding: 30px; background: #f8f9fa; border-bottom: 2px solid #e9ecef; }
+        .control-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        .control-item { display: flex; flex-direction: column; }
+        .control-item label { font-weight: 600; color: #2f2f2f; margin-bottom: 8px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .control-item select { padding: 12px; border: 2px solid #dee2e6; border-radius: 8px; font-size: 15px; background: white; cursor: pointer; transition: all 0.3s ease; }
+        .control-item select:hover { border-color: #b71234; }
+        .control-item select:focus { outline: none; border-color: #b71234; box-shadow: 0 0 0 3px rgba(183, 18, 52, 0.1); }
+        .view-toggles { display: flex; gap: 10px; flex-wrap: wrap; }
+        .view-toggle { flex: 1; min-width: 140px; padding: 12px 20px; border: 2px solid #dee2e6; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.3s ease; font-size: 14px; }
+        .view-toggle:hover { border-color: #b71234; background: #fff5f7; }
+        .view-toggle.active { background: #b71234; color: white; border-color: #b71234; }
+        .download-section { padding: 20px 30px; background: #fff; border-bottom: 2px solid #e9ecef; display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }
+        .download-section h3 { font-size: 16px; color: #2f2f2f; margin-right: 15px; flex-shrink: 0; }
+        .download-btn { padding: 10px 20px; background: linear-gradient(135deg, #9B8942 0%, #8a7a3a 100%); color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
+        .download-btn:hover { background: linear-gradient(135deg, #b5a363 0%, #9B8942 100%); box-shadow: 0 4px 12px rgba(155, 137, 66, 0.3); transform: translateY(-2px); }
+        .download-btn svg { width: 16px; height: 16px; }
+        .chart-container { padding: 30px; position: relative; height: 500px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; padding: 20px 30px 30px; background: #f8f9fa; }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); text-align: center; }
         .stat-card.favorable { border-left: 4px solid #28a745; }
         .stat-card.parcial { border-left: 4px solid #9B8942; }
         .stat-card.desfavorable { border-left: 4px solid #b71234; }
         .stat-card.inadmision { border-left: 4px solid #979492; }
         .stat-card.total { border-left: 4px solid #007bff; }
-        
-        .stat-card h3 {
-            font-size: 13px;
-            color: #6c757d;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .stat-card p {
-            font-size: 32px;
-            font-weight: 700;
-            color: #2f2f2f;
-        }
-        
-        .stat-card .percentage {
-            font-size: 14px;
-            margin-top: 5px;
-            font-weight: 600;
-            color: #6c757d;
-        }
-
-        .table-container {
-            padding: 30px;
-            overflow-x: auto;
-        }
-
-        .table-container h2 {
-            margin-bottom: 20px;
-            color: #2f2f2f;
-            font-size: 20px;
-        }
-
-        .table-wrapper {
-            max-height: 700px;
-            overflow: auto;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            font-size: 13px;
-        }
-
-        thead {
-            background: linear-gradient(135deg, #b71234 0%, #8b0d27 100%);
-            color: white;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        th {
-            padding: 12px 8px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            white-space: nowrap;
-        }
-
-        td {
-            padding: 10px 8px;
-            border-bottom: 1px solid #e9ecef;
-            font-size: 12.5px;
-            vertical-align: top;
-            line-height: 1.4;
-        }
-
-        tbody tr:hover {
-            background: #f8f9fa;
-        }
-
-        tbody tr:nth-child(even) {
-            background: #fafafa;
-        }
-
-        tbody tr:nth-child(even):hover {
-            background: #f0f0f0;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 10.5px;
-            font-weight: 600;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-
+        .stat-card h3 { font-size: 13px; color: #6c757d; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card p { font-size: 32px; font-weight: 700; color: #2f2f2f; }
+        .stat-card .percentage { font-size: 14px; margin-top: 5px; font-weight: 600; color: #6c757d; }
+        .table-container { padding: 30px; }
+        .table-container h2 { margin-bottom: 20px; color: #2f2f2f; font-size: 20px; }
+        .table-wrapper { max-height: 700px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 8px; position: relative; }
+        table { width: 100%; border-collapse: collapse; background: white; font-size: 11.5px; table-layout: fixed; }
+        thead { background: linear-gradient(135deg, #b71234 0%, #8b0d27 100%); color: white; position: sticky; top: 0; z-index: 100; }
+        th { padding: 10px 6px; text-align: left; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 0.3px; line-height: 1.3; }
+        td { padding: 8px 6px; border-bottom: 1px solid #e9ecef; font-size: 11px; vertical-align: top; line-height: 1.4; word-wrap: break-word; overflow-wrap: break-word; }
+        tbody tr:hover { background: #f8f9fa; }
+        tbody tr:nth-child(even) { background: #fafafa; }
+        tbody tr:nth-child(even):hover { background: #f0f0f0; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 10px; font-size: 9.5px; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
         .badge.favorable { background: #d4edda; color: #155724; }
         .badge.parcial { background: #fff3cd; color: #856404; }
         .badge.desfavorable { background: #f8d7da; color: #721c24; }
         .badge.inadmision { background: #e2e3e5; color: #383d41; }
-
-        .consejo-link {
-            color: #b71234;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 11px;
-        }
-
-        .consejo-link:hover {
-            text-decoration: underline;
-        }
-        
-        .footer {
-            padding: 20px 30px;
-            background: #2f2f2f;
-            color: white;
-            text-align: center;
-            font-size: 14px;
-        }
-        
-        .footer a {
-            color: #b71234;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        /* Accesibilidad mejorada */
-        td, th {
-            min-width: 80px;
-        }
-
-        td:nth-child(3), /* Resumen */
-        td:nth-child(9) { /* Motivo denegación */
-            min-width: 200px;
-            max-width: 350px;
-        }
-
-        /* Columnas específicas */
-        th:nth-child(1), td:nth-child(1) { width: 90px; } /* Nº Expediente */
-        th:nth-child(2), td:nth-child(2) { width: 95px; } /* Fecha */
-        th:nth-child(3), td:nth-child(3) { width: 150px; } /* Solicitante */
-        th:nth-child(4), td:nth-child(4) { width: 300px; } /* Resumen */
-        th:nth-child(5), td:nth-child(5) { width: 100px; } /* Forma acceso */
-        th:nth-child(6), td:nth-child(6) { width: 140px; } /* Vía contacto */
-        th:nth-child(7), td:nth-child(7) { width: 110px; } /* Tiempo */
-        th:nth-child(8), td:nth-child(8) { width: 150px; } /* Sentido */
-        th:nth-child(9), td:nth-child(9) { width: 250px; } /* Motivo */
-        th:nth-child(10), td:nth-child(10) { width: 120px; } /* Consejo */
-
-        @media (max-width: 768px) {
-            .header h1 { font-size: 22px; }
-            .control-group { grid-template-columns: 1fr; }
-            .chart-container { height: 350px; padding: 20px; }
-            .download-section { flex-direction: column; align-items: stretch; }
-            .download-btn { width: 100%; justify-content: center; }
-            .table-container { padding: 15px; }
-            table { font-size: 11px; }
-            th, td { padding: 6px 4px; }
-        }
+        a { color: #000; text-decoration: underline; }
+        a:hover { text-decoration: none; }
+        .footer { padding: 20px 30px; background: #2f2f2f; color: white; text-align: center; font-size: 14px; }
+        .footer a { color: #b71234; text-decoration: none; font-weight: 600; }
+        th:nth-child(1), td:nth-child(1) { width: 6%; }
+        th:nth-child(2), td:nth-child(2) { width: 6%; }
+        th:nth-child(3), td:nth-child(3) { width: 10%; }
+        th:nth-child(4), td:nth-child(4) { width: 23%; }
+        th:nth-child(5), td:nth-child(5) { width: 7%; }
+        th:nth-child(6), td:nth-child(6) { width: 10%; }
+        th:nth-child(7), td:nth-child(7) { width: 9%; }
+        th:nth-child(8), td:nth-child(8) { width: 11%; }
+        th:nth-child(9), td:nth-child(9) { width: 12%; }
+        th:nth-child(10), td:nth-child(10) { width: 6%; }
+        @media (max-width: 1200px) { .table-wrapper { overflow-x: auto; } table { table-layout: auto; } }
+        @media (max-width: 768px) { .header h1 { font-size: 22px; } .control-group { grid-template-columns: 1fr; } .chart-container { height: 350px; padding: 20px; } .download-section { flex-direction: column; align-items: stretch; } .download-btn { width: 100%; justify-content: center; } .table-container { padding: 15px; } table { font-size: 10px; } th, td { padding: 6px 4px; } }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>📋 Registro de Solicitudes de Transparencia</h1>
-            <p>Universidad Complutense de Madrid</p>
+            <p>Universidad Complutense de Madrid (2020-2025)</p>
         </div>
-        
         <div class="controls">
             <div class="control-group">
                 <div class="control-item">
                     <label for="year-select">Año</label>
                     <select id="year-select">
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
                         <option value="2022">2022</option>
                         <option value="2023">2023</option>
                         <option value="2024">2024</option>
@@ -374,68 +93,34 @@
                     </select>
                 </div>
             </div>
-            
             <div class="control-item">
                 <label>Vista de Gráfico</label>
                 <div class="view-toggles">
                     <button class="view-toggle active" data-view="bar">📊 Barras</button>
                     <button class="view-toggle" data-view="pie">🥧 Circular</button>
-                    <button class="view-toggle" data-view="line">📈 Evolución Anual</button>
+                    <button class="view-toggle" data-view="line">📈 Evolución</button>
                     <button class="view-toggle" data-view="percentage">📊 Porcentajes</button>
                 </div>
             </div>
         </div>
-
         <div class="download-section">
             <h3>📥 Descargar Registro Completo:</h3>
-            <button class="download-btn" id="downloadExcelBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                </svg>
-                Descargar Excel (.xlsx)
-            </button>
-            <button class="download-btn" id="downloadCsvBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                </svg>
-                Descargar CSV
-            </button>
+            <button class="download-btn" id="downloadExcelBtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Excel (.xlsx)</button>
+            <button class="download-btn" id="downloadCsvBtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>CSV</button>
         </div>
-        
-        <div class="chart-container">
-            <canvas id="mainChart"></canvas>
-        </div>
-        
+        <div class="chart-container"><canvas id="mainChart"></canvas></div>
         <div class="stats-grid" id="statsGrid"></div>
-
         <div class="table-container">
             <h2>📄 Detalle Completo de Solicitudes <span id="yearTitle"></span></h2>
             <div class="table-wrapper">
                 <table id="dataTable">
-                    <thead>
-                        <tr>
-                            <th>Nº Expediente</th>
-                            <th>Fecha Entrada</th>
-                            <th>Solicitante</th>
-                            <th>Resumen de lo Solicitado</th>
-                            <th>Forma de Acceso</th>
-                            <th>Vía de Contacto</th>
-                            <th>Tiempo Resolución</th>
-                            <th>Sentido Resolución</th>
-                            <th>Motivo Denegación Acceso</th>
-                            <th>Consejo Transparencia</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>Nº Expte.</th><th>Fecha Entrada</th><th>Solicitante</th><th>Resumen de lo Solicitado</th><th>Forma Acceso</th><th>Vía Contacto</th><th>Tiempo Resolución</th><th>Sentido Resolución</th><th>Motivo Denegación</th><th>Reclamación CT</th></tr></thead>
                     <tbody id="tableBody"></tbody>
                 </table>
             </div>
         </div>
-        
-        <div class="footer">
-            Universidad Complutense de Madrid | Portal de Transparencia
-        </div>
+        <div class="footer">Universidad Complutense de Madrid | Portal de Transparencia</div>
     </div>
-
     <script>
 const datosCompletosDetallados = {
   "2022": [
@@ -3747,351 +3432,204 @@ const datosCompletosDetallados = {
     }
   ]
 };
-        const coloresUCM = {
-            principal: '#b71234',
-            gris: '#979492',
-            dorado: '#9B8942',
-            verde: '#28a745'
-        };
+const coloresUCM = { principal: '#b71234', gris: '#979492', dorado: '#9B8942', verde: '#28a745' };
+const datosSolicitudes = {
+    "2020": { "total": 24, "favorable": 14, "parcialmente_favorable": 6, "desfavorable": 2, "inadmision": 2 },
+    "2021": { "total": 34, "favorable": 22, "parcialmente_favorable": 7, "desfavorable": 5, "inadmision": 0 },
+    "2022": { "total": 56, "favorable": 40, "parcialmente_favorable": 4, "desfavorable": 10, "inadmision": 2 },
+    "2023": { "total": 66, "favorable": 49, "parcialmente_favorable": 5, "desfavorable": 11, "inadmision": 1 },
+    "2024": { "total": 86, "favorable": 52, "parcialmente_favorable": 8, "desfavorable": 21, "inadmision": 5 },
+    "2025": { "total": 67, "favorable": 43, "parcialmente_favorable": 8, "desfavorable": 10, "inadmision": 6 }
+};
 
-        const datosSolicitudes = {
-            "2022": { "total": 56, "favorable": 40, "parcialmente_favorable": 4, "desfavorable": 10, "inadmision": 2 },
-            "2023": { "total": 66, "favorable": 49, "parcialmente_favorable": 5, "desfavorable": 11, "inadmision": 1 },
-            "2024": { "total": 86, "favorable": 52, "parcialmente_favorable": 8, "desfavorable": 21, "inadmision": 5 },
-            "2025": { "total": 67, "favorable": 43, "parcialmente_favorable": 8, "desfavorable": 10, "inadmision": 6 }
-        };
+const expedientesConEnlace = {
+    "2020": ['5','6','8','10','11','13','17','18','20','22'],
+    "2021": ['5','7','9','11','14','16','17','18','21','22','26','28','29'],
+    "2022": ['1','3','17','21','23','26','31','34','40','42','46','49','51','54'],
+    "2023": ['4','6','11','18','19','25','29','30','32','43','44','45','56','60','61','66'],
+    "2024": ['4','8','9','11','15','19','20','21','23','24','25','30','31','32','33','34','35','37','39','42','46','47','48','54','58','65','68','69','71','76','78','81','82','84'],
+    "2025": ['2','3','4','9','29','30','31','35','41','42','46','48','49','50','51','52','54','55','56','59','61','62','64','66']
+};
 
-        let chart = null;
-        let currentView = 'bar';
-        const yearSelect = document.getElementById('year-select');
-        const viewToggles = document.querySelectorAll('.view-toggle');
-        const statsGrid = document.getElementById('statsGrid');
+let chart = null, currentView = 'bar';
+const yearSelect = document.getElementById('year-select');
+const viewToggles = document.querySelectorAll('.view-toggle');
+const statsGrid = document.getElementById('statsGrid');
 
-        function init() {
-            actualizarVisualizacion();
-            yearSelect.addEventListener('change', actualizarVisualizacion);
-            viewToggles.forEach(toggle => {
-                toggle.addEventListener('click', () => {
-                    viewToggles.forEach(t => t.classList.remove('active'));
-                    toggle.classList.add('active');
-                    currentView = toggle.dataset.view;
-                    actualizarGrafico();
-                });
-            });
-            document.getElementById('downloadExcelBtn').addEventListener('click', descargarExcel);
-            document.getElementById('downloadCsvBtn').addEventListener('click', descargarCSV);
-        }
-
-        function actualizarVisualizacion() {
-            actualizarEstadisticas();
+function init() {
+    actualizarVisualizacion();
+    yearSelect.addEventListener('change', actualizarVisualizacion);
+    viewToggles.forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            viewToggles.forEach(t => t.classList.remove('active'));
+            toggle.classList.add('active');
+            currentView = toggle.dataset.view;
             actualizarGrafico();
-            actualizarTabla();
-        }
+        });
+    });
+    document.getElementById('downloadExcelBtn').addEventListener('click', descargarExcel);
+    document.getElementById('downloadCsvBtn').addEventListener('click', descargarCSV);
+}
 
-        function actualizarEstadisticas() {
-            const year = yearSelect.value;
-            const datos = datosSolicitudes[year];
-            
-            statsGrid.innerHTML = `
-                <div class="stat-card total">
-                    <h3>Total Solicitudes</h3>
-                    <p>${datos.total}</p>
-                </div>
-                <div class="stat-card favorable">
-                    <h3>Favorable</h3>
-                    <p>${datos.favorable}</p>
-                    <div class="percentage">${((datos.favorable / datos.total) * 100).toFixed(1)}%</div>
-                </div>
-                <div class="stat-card parcial">
-                    <h3>Parcialmente Favorable</h3>
-                    <p>${datos.parcialmente_favorable}</p>
-                    <div class="percentage">${((datos.parcialmente_favorable / datos.total) * 100).toFixed(1)}%</div>
-                </div>
-                <div class="stat-card desfavorable">
-                    <h3>Desfavorable</h3>
-                    <p>${datos.desfavorable}</p>
-                    <div class="percentage">${((datos.desfavorable / datos.total) * 100).toFixed(1)}%</div>
-                </div>
-                <div class="stat-card inadmision">
-                    <h3>Inadmisión</h3>
-                    <p>${datos.inadmision}</p>
-                    <div class="percentage">${((datos.inadmision / datos.total) * 100).toFixed(1)}%</div>
-                </div>
-            `;
-        }
+function actualizarVisualizacion() { actualizarEstadisticas(); actualizarGrafico(); actualizarTabla(); }
+function actualizarEstadisticas() {
+    const year = yearSelect.value, datos = datosSolicitudes[year];
+    statsGrid.innerHTML = `
+        <div class="stat-card total"><h3>Total Solicitudes</h3><p>${datos.total}</p></div>
+        <div class="stat-card favorable"><h3>Favorable</h3><p>${datos.favorable}</p><div class="percentage">${((datos.favorable / datos.total) * 100).toFixed(1)}%</div></div>
+        <div class="stat-card parcial"><h3>Parcialmente Favorable</h3><p>${datos.parcialmente_favorable}</p><div class="percentage">${((datos.parcialmente_favorable / datos.total) * 100).toFixed(1)}%</div></div>
+        <div class="stat-card desfavorable"><h3>Desfavorable</h3><p>${datos.desfavorable}</p><div class="percentage">${((datos.desfavorable / datos.total) * 100).toFixed(1)}%</div></div>
+        <div class="stat-card inadmision"><h3>Inadmisión</h3><p>${datos.inadmision}</p><div class="percentage">${((datos.inadmision / datos.total) * 100).toFixed(1)}%</div></div>
+    `;
+}
 
-        function actualizarGrafico() {
-            const year = yearSelect.value;
-            const datos = datosSolicitudes[year];
-            if (chart) chart.destroy();
-            const ctx = document.getElementById('mainChart').getContext('2d');
-            let config = {};
-            switch(currentView) {
-                case 'bar': config = crearGraficoBarras(datos); break;
-                case 'pie': config = crearGraficoPie(datos); break;
-                case 'line': config = crearGraficoLinea(); break;
-                case 'percentage': config = crearGraficoPorcentaje(datos); break;
-            }
-            chart = new Chart(ctx, config);
-        }
+function actualizarGrafico() {
+    const year = yearSelect.value, datos = datosSolicitudes[year];
+    if (chart) chart.destroy();
+    const ctx = document.getElementById('mainChart').getContext('2d');
+    let config = {};
+    switch(currentView) {
+        case 'bar': config = crearGraficoBarras(datos); break;
+        case 'pie': config = crearGraficoPie(datos); break;
+        case 'line': config = crearGraficoLinea(); break;
+        case 'percentage': config = crearGraficoPorcentaje(datos); break;
+    }
+    chart = new Chart(ctx, config);
+}
 
-        function crearGraficoBarras(datos) {
-            return {
-                type: 'bar',
-                data: {
-                    labels: ['Favorable', 'Parcialmente Favorable', 'Desfavorable', 'Inadmisión'],
-                    datasets: [{
-                        label: 'Número de Solicitudes',
-                        data: [datos.favorable, datos.parcialmente_favorable, datos.desfavorable, datos.inadmision],
-                        backgroundColor: ['rgba(40, 167, 69, 0.7)', 'rgba(155, 137, 66, 0.7)', 'rgba(183, 18, 52, 0.7)', 'rgba(151, 148, 146, 0.7)'],
-                        borderColor: ['#28a745', coloresUCM.dorado, coloresUCM.principal, coloresUCM.gris],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        title: { display: true, text: `Solicitudes de Transparencia ${yearSelect.value}`, font: { size: 18, weight: 'bold' } }
-                    },
-                    scales: { y: { beginAtZero: true, ticks: { stepSize: 5 } } }
-                }
-            };
-        }
+function crearGraficoBarras(datos) {
+    return { type: 'bar', data: { labels: ['Favorable', 'Parcialmente Favorable', 'Desfavorable', 'Inadmisión'], datasets: [{ label: 'Número de Solicitudes', data: [datos.favorable, datos.parcialmente_favorable, datos.desfavorable, datos.inadmision], backgroundColor: ['rgba(40, 167, 69, 0.7)', 'rgba(155, 137, 66, 0.7)', 'rgba(183, 18, 52, 0.7)', 'rgba(151, 148, 146, 0.7)'], borderColor: ['#28a745', coloresUCM.dorado, coloresUCM.principal, coloresUCM.gris], borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, title: { display: true, text: `Solicitudes de Transparencia ${yearSelect.value}`, font: { size: 18, weight: 'bold' } } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 5 } } } } };
+}
 
-        function crearGraficoPie(datos) {
-            return {
-                type: 'doughnut',
-                data: {
-                    labels: ['Favorable', 'Parcialmente Favorable', 'Desfavorable', 'Inadmisión'],
-                    datasets: [{
-                        data: [datos.favorable, datos.parcialmente_favorable, datos.desfavorable, datos.inadmision],
-                        backgroundColor: ['rgba(40, 167, 69, 0.8)', 'rgba(155, 137, 66, 0.8)', 'rgba(183, 18, 52, 0.8)', 'rgba(151, 148, 146, 0.8)'],
-                        borderColor: '#fff',
-                        borderWidth: 3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'right', labels: { font: { size: 14 }, padding: 20 } },
-                        title: { display: true, text: `Distribución de Resoluciones ${yearSelect.value}`, font: { size: 18, weight: 'bold' } },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                    return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
-                                }
-                            }
-                        }
-                    }
-                }
-            };
-        }
+function crearGraficoPie(datos) {
+    return { type: 'doughnut', data: { labels: ['Favorable', 'Parcialmente Favorable', 'Desfavorable', 'Inadmisión'], datasets: [{ data: [datos.favorable, datos.parcialmente_favorable, datos.desfavorable, datos.inadmision], backgroundColor: ['rgba(40, 167, 69, 0.8)', 'rgba(155, 137, 66, 0.8)', 'rgba(183, 18, 52, 0.8)', 'rgba(151, 148, 146, 0.8)'], borderColor: '#fff', borderWidth: 3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 14 }, padding: 20 } }, title: { display: true, text: `Distribución de Resoluciones ${yearSelect.value}`, font: { size: 18, weight: 'bold' } }, tooltip: { callbacks: { label: function(context) { const total = context.dataset.data.reduce((a, b) => a + b, 0); const percentage = ((context.parsed / total) * 100).toFixed(1); return context.label + ': ' + context.parsed + ' (' + percentage + '%)'; } } } } } };
+}
 
-        function crearGraficoLinea() {
-            const years = Object.keys(datosSolicitudes).sort();
-            const favorable = years.map(y => datosSolicitudes[y].favorable);
-            const parcial = years.map(y => datosSolicitudes[y].parcialmente_favorable);
-            const desfavorable = years.map(y => datosSolicitudes[y].desfavorable);
-            const inadmision = years.map(y => datosSolicitudes[y].inadmision);
-            
-            return {
-                type: 'line',
-                data: {
-                    labels: years,
-                    datasets: [
-                        { label: 'Favorable', data: favorable, borderColor: '#28a745', backgroundColor: 'rgba(40, 167, 69, 0.2)', borderWidth: 3, tension: 0.4, fill: true },
-                        { label: 'Parcialmente Favorable', data: parcial, borderColor: coloresUCM.dorado, backgroundColor: 'rgba(155, 137, 66, 0.2)', borderWidth: 3, tension: 0.4, fill: true },
-                        { label: 'Desfavorable', data: desfavorable, borderColor: coloresUCM.principal, backgroundColor: 'rgba(183, 18, 52, 0.2)', borderWidth: 3, tension: 0.4, fill: true },
-                        { label: 'Inadmisión', data: inadmision, borderColor: coloresUCM.gris, backgroundColor: 'rgba(151, 148, 146, 0.2)', borderWidth: 3, tension: 0.4, fill: true }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'top', labels: { font: { size: 12 }, padding: 15 } },
-                        title: { display: true, text: 'Evolución Anual de Solicitudes (2022-2025)', font: { size: 18, weight: 'bold' } }
-                    },
-                    scales: { y: { beginAtZero: true, ticks: { stepSize: 5 } } }
-                }
-            };
-        }
+function crearGraficoLinea() {
+    const years = Object.keys(datosSolicitudes).sort();
+    const favorable = years.map(y => datosSolicitudes[y].favorable);
+    const parcial = years.map(y => datosSolicitudes[y].parcialmente_favorable);
+    const desfavorable = years.map(y => datosSolicitudes[y].desfavorable);
+    const inadmision = years.map(y => datosSolicitudes[y].inadmision);
+    return { type: 'line', data: { labels: years, datasets: [{ label: 'Favorable', data: favorable, borderColor: '#28a745', backgroundColor: 'rgba(40, 167, 69, 0.2)', borderWidth: 3, tension: 0.4, fill: true }, { label: 'Parcialmente Favorable', data: parcial, borderColor: coloresUCM.dorado, backgroundColor: 'rgba(155, 137, 66, 0.2)', borderWidth: 3, tension: 0.4, fill: true }, { label: 'Desfavorable', data: desfavorable, borderColor: coloresUCM.principal, backgroundColor: 'rgba(183, 18, 52, 0.2)', borderWidth: 3, tension: 0.4, fill: true }, { label: 'Inadmisión', data: inadmision, borderColor: coloresUCM.gris, backgroundColor: 'rgba(151, 148, 146, 0.2)', borderWidth: 3, tension: 0.4, fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { font: { size: 12 }, padding: 15 } }, title: { display: true, text: 'Evolución Anual de Solicitudes (2020-2025)', font: { size: 18, weight: 'bold' } } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 10 } } } } };
+}
 
-        function crearGraficoPorcentaje(datos) {
-            const porcentajes = [
-                ((datos.favorable / datos.total) * 100).toFixed(1),
-                ((datos.parcialmente_favorable / datos.total) * 100).toFixed(1),
-                ((datos.desfavorable / datos.total) * 100).toFixed(1),
-                ((datos.inadmision / datos.total) * 100).toFixed(1)
-            ];
+function crearGraficoPorcentaje(datos) {
+    const porcentajes = [((datos.favorable / datos.total) * 100).toFixed(1), ((datos.parcialmente_favorable / datos.total) * 100).toFixed(1), ((datos.desfavorable / datos.total) * 100).toFixed(1), ((datos.inadmision / datos.total) * 100).toFixed(1)];
+    return { type: 'bar', data: { labels: ['Favorable', 'Parcialmente Favorable', 'Desfavorable', 'Inadmisión'], datasets: [{ label: 'Porcentaje (%)', data: porcentajes, backgroundColor: ['rgba(40, 167, 69, 0.7)', 'rgba(155, 137, 66, 0.7)', 'rgba(183, 18, 52, 0.7)', 'rgba(151, 148, 146, 0.7)'], borderColor: ['#28a745', coloresUCM.dorado, coloresUCM.principal, coloresUCM.gris], borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, title: { display: true, text: `Distribución Porcentual ${yearSelect.value}`, font: { size: 18, weight: 'bold' } } }, scales: { y: { beginAtZero: true, max: 100, ticks: { callback: function(value) { return value + '%'; } } } } } };
+}
 
-            return {
-                type: 'bar',
-                data: {
-                    labels: ['Favorable', 'Parcialmente Favorable', 'Desfavorable', 'Inadmisión'],
-                    datasets: [{
-                        label: 'Porcentaje (%)',
-                        data: porcentajes,
-                        backgroundColor: ['rgba(40, 167, 69, 0.7)', 'rgba(155, 137, 66, 0.7)', 'rgba(183, 18, 52, 0.7)', 'rgba(151, 148, 146, 0.7)'],
-                        borderColor: ['#28a745', coloresUCM.dorado, coloresUCM.principal, coloresUCM.gris],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        title: { display: true, text: `Distribución Porcentual ${yearSelect.value}`, font: { size: 18, weight: 'bold' } }
-                    },
-                    scales: { y: { beginAtZero: true, max: 100, ticks: { callback: function(value) { return value + '%'; } } } }
-                }
-            };
-        }
+function procesarExpediente(expediente, año) {
+    const numExp = expediente.replace(`/${año}`, '');
+    if (expedientesConEnlace[año] && expedientesConEnlace[año].includes(numExp)) {
+        const suffix = (año === '2025') ? '-notificacionf-o' : '-resolucion_o';
+        const url = `https://www.ucm.es/portaldetransparencia/file/${numExp}-${año}${suffix}`;
+        return `<a href="${url}" target="_blank" rel="noopener" title="Ver expediente ${expediente}">${expediente}</a>`;
+    }
+    return expediente;
+}
 
-        function extraerEnlaceConsejo(texto) {
-            if (!texto || texto === 'NO' || texto === '***' || texto.trim() === '') {
-                return { texto: 'NO', enlace: null };
-            }
-            
-            // Buscar patrón "SÍ (RDA CTPCM XXX/XXXX)" o similar
-            const match = texto.match(/SÍ.*?\((.+?)\)/i) || texto.match(/SI.*?\((.+?)\)/i);
-            
-            if (match) {
-                const referencia = match[1].trim();
-                // Intentar extraer número de expediente
-                const numMatch = referencia.match(/(\d+\/\d+)/);
-                if (numMatch) {
-                    return {
-                        texto: `SÍ (${referencia})`,
-                        enlace: null, // Aquí se podría construir URL si existe patrón
-                        referencia: referencia
-                    };
-                }
-                return { texto: texto, enlace: null };
-            }
-            
-            return { texto: texto.trim(), enlace: null };
-        }
+function procesarConsejoTransparencia(texto) {
+    if (!texto || texto === 'NO' || texto === '***' || texto === '---' || texto.trim() === '') return 'NO';
+    
+    const textoOriginal = texto;
+    const matchRT = texto.match(/(?:SÍ|SI)\s*\(?\[?RT\s*(\d+\/\d+)\]?\)?/i) || texto.match(/RT\s+(\d+\/\d+)/i);
+    const matchRDA = texto.match(/(?:SÍ|SI)\s*\(RDA\s+CTP?CM\s+(\d+\/\d+)\)/i);
+    const matchCTPD = texto.match(/(?:SÍ|SI)\s*\((\d+\/\d+)\s+CTPD\)/i);
+    const matchDoble = texto.match(/SI\s*\((\d+\/\d+)\s+CTPD.*?(\d+\/\d+)\s+CTPD\)/i);
+    
+    if (matchDoble) {
+        const ref1 = matchDoble[1], ref2 = matchDoble[2];
+        const url1 = `https://www.comunidad.madrid/sites/default/files/resolucion_${ref1.replace('/', '_')}_ctpd_anonimizada.pdf`;
+        const url2 = `https://www.comunidad.madrid/sites/default/files/resolucion_${ref2.replace('/', '_')}_ctpd_anonimizada.pdf`;
+        return `<a href="${url1}" target="_blank" rel="noopener">SI (${ref1} CTPD)</a><br><a href="${url2}" target="_blank" rel="noopener">SI (${ref2} CTPD)</a>`;
+    }
+    
+    if (matchRT) {
+        const ref = matchRT[1];
+        const url = `https://www.ucm.es/portaldetransparencia/file/rt_${ref.replace('/', '_')}_o`;
+        return `<a href="${url}" target="_blank" rel="noopener">SÍ (RT ${ref})</a>`;
+    }
+    
+    if (matchRDA) {
+        const ref = matchRDA[1];
+        const url = `https://www.comunidad.madrid/sites/default/files/resolucion_rdactpcm_${ref.replace('/', '_')}_anonimizada.pdf`;
+        return `<a href="${url}" target="_blank" rel="noopener">SÍ (RDA CTPCM ${ref})</a>`;
+    }
+    
+    if (matchCTPD) {
+        const ref = matchCTPD[1];
+        const url = `https://www.comunidad.madrid/sites/default/files/resolucion_${ref.replace('/', '_')}_ctpd_anonimizada.pdf`;
+        return `<a href="${url}" target="_blank" rel="noopener">SI (${ref} CTPD)</a>`;
+    }
+    
+    return textoOriginal;
+}
 
-        function actualizarTabla() {
-            const year = yearSelect.value;
-            document.getElementById('yearTitle').textContent = year;
-            
-            const registros = datosCompletosDetallados[year] || [];
-            const tbody = document.getElementById('tableBody');
-            
-            if (registros.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 30px;">No hay datos disponibles</td></tr>';
-                return;
-            }
+function convertirEmail(texto) {
+    if (!texto || texto === '***' || texto === '---') return texto;
+    const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi;
+    return texto.replace(emailRegex, '<a href="mailto:$1">$1</a>');
+}
 
-            tbody.innerHTML = registros.map((reg, idx) => {
-                const sentido = reg.sentido_resolucion.toLowerCase().replace(/\s+/g, '_');
-                let badgeClass = 'inadmision';
-                if (sentido.includes('favorable') && !sentido.includes('parcial')) badgeClass = 'favorable';
-                else if (sentido.includes('parcial')) badgeClass = 'parcial';
-                else if (sentido.includes('desfavorable')) badgeClass = 'desfavorable';
+function actualizarTabla() {
+    const year = yearSelect.value;
+    document.getElementById('yearTitle').textContent = year;
+    const registros = datosCompletosDetallados[year] || [];
+    const tbody = document.getElementById('tableBody');
+    
+    if (registros.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 30px;">No hay datos disponibles para este año</td></tr>';
+        return;
+    }
 
-                const expediente = reg.expediente || ((idx + 1) + '/' + year);
-                const consejoInfo = extraerEnlaceConsejo(reg.consejo_transparencia);
-                
-                const consejoHTML = consejoInfo.enlace 
-                    ? `<a href="${consejoInfo.enlace}" class="consejo-link" target="_blank" rel="noopener">${consejoInfo.texto}</a>`
-                    : consejoInfo.texto;
+    tbody.innerHTML = registros.map((reg, idx) => {
+        const sentido = reg.sentido_resolucion.toLowerCase().replace(/\s+/g, '_');
+        let badgeClass = 'inadmision';
+        if (sentido.includes('favorable') && !sentido.includes('parcial')) badgeClass = 'favorable';
+        else if (sentido.includes('parcial')) badgeClass = 'parcial';
+        else if (sentido.includes('desfavorable')) badgeClass = 'desfavorable';
 
-                return `
-                    <tr>
-                        <td>${expediente}</td>
-                        <td>${reg.fecha_entrada}</td>
-                        <td>${reg.solicitante}</td>
-                        <td>${reg.resumen}</td>
-                        <td>${reg.forma_acceso}</td>
-                        <td>${reg.via_contacto}</td>
-                        <td>${reg.tiempo_resolucion}</td>
-                        <td><span class="badge ${badgeClass}">${reg.sentido_resolucion}</span></td>
-                        <td>${reg.motivo_denegacion}</td>
-                        <td>${consejoHTML}</td>
-                    </tr>
-                `;
-            }).join('');
-        }
+        const expediente = reg.expediente || ((idx + 1) + '/' + year);
+        const expedienteHTML = procesarExpediente(expediente, year);
+        const viaContactoHTML = convertirEmail(reg.via_contacto);
+        const consejoHTML = procesarConsejoTransparencia(reg.consejo_transparencia);
 
-        function descargarCSV() {
-            const year = yearSelect.value;
-            const registros = datosCompletosDetallados[year] || [];
-            
-            let csv = 'Nº Expediente ,Fecha de entrada,Solicitante (sólo con consentimiento expreso),Resumen de lo solicitado,Forma de acceso,Vía de contacto (sólo con consentimiento expreso),Tiempo de resolución (en días hábiles) - suspensión,Sentido de la resolución,Motivo denegación acceso,Consejo Transparencia\n';
-            
-            registros.forEach((reg, idx) => {
-                const exp = reg.expediente || ((idx + 1) + '/' + year);
-                csv += `"${exp}","${reg.fecha_entrada}","${reg.solicitante}","${reg.resumen}","${reg.forma_acceso}","${reg.via_contacto}","${reg.tiempo_resolucion}","${reg.sentido_resolucion}","${reg.motivo_denegacion}","${reg.consejo_transparencia}"\n`;
-            });
-            
-            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', `RegistroSolictudes_${year}_Web.csv`);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+        return `<tr><td>${expedienteHTML}</td><td>${reg.fecha_entrada}</td><td>${reg.solicitante}</td><td>${reg.resumen}</td><td>${reg.forma_acceso}</td><td>${viaContactoHTML}</td><td>${reg.tiempo_resolucion}</td><td><span class="badge ${badgeClass}">${reg.sentido_resolucion}</span></td><td>${reg.motivo_denegacion}</td><td>${consejoHTML}</td></tr>`;
+    }).join('');
+}
 
-        function descargarExcel() {
-            const year = yearSelect.value;
-            const registros = datosCompletosDetallados[year] || [];
-            
-            const dataArray = [
-                ['Nº Expediente ', 'Fecha de entrada', 'Solicitante (sólo con consentimiento expreso)', 'Resumen de lo solicitado', 'Forma de acceso', 'Vía de contacto (sólo con consentimiento expreso)', 'Tiempo de resolución (en días hábiles) - suspensión', 'Sentido de la resolución', 'Motivo denegación acceso', year === '2022' || year === '2023' ? 'Consejo Transparencia CM' : 'Consejo Transparencia ']
-            ];
-            
-            registros.forEach((reg, idx) => {
-                const exp = reg.expediente || ((idx + 1) + '/' + year);
-                dataArray.push([
-                    exp,
-                    reg.fecha_entrada,
-                    reg.solicitante,
-                    reg.resumen,
-                    reg.forma_acceso,
-                    reg.via_contacto,
-                    reg.tiempo_resolucion,
-                    reg.sentido_resolucion,
-                    reg.motivo_denegacion,
-                    reg.consejo_transparencia
-                ]);
-            });
-            
-            const ws = XLSX.utils.aoa_to_sheet(dataArray);
-            
-            // Ajustar anchos de columna
-            const colWidths = [
-                { wch: 14 },  // Nº Expediente
-                { wch: 13 },  // Fecha
-                { wch: 35 },  // Solicitante
-                { wch: 70 },  // Resumen
-                { wch: 14 },  // Forma acceso
-                { wch: 30 },  // Vía contacto
-                { wch: 45 },  // Tiempo
-                { wch: 22 },  // Sentido
-                { wch: 50 },  // Motivo
-                { wch: 30 }   // Consejo
-            ];
-            ws['!cols'] = colWidths;
-            
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Solicitudes');
-            
-            XLSX.writeFile(wb, `RegistroSolictudes_${year}_Web.xlsx`);
-        }
+function descargarCSV() {
+    const year = yearSelect.value;
+    const registros = datosCompletosDetallados[year] || [];
+    const colNombre = (year === '2020' || year === '2021') ? 'Reclamación Consejo Transparencia' : (year === '2022' || year === '2023' ? 'Consejo Transparencia CM' : 'Consejo Transparencia ');
+    let csv = `Nº Expediente ,Fecha de entrada,Solicitante (sólo con consentimiento expreso),Resumen de lo solicitado,Forma de acceso,Vía de contacto (sólo con consentimiento expreso),Tiempo de resolución (en días hábiles) - suspensión,Sentido de la resolución,Motivo denegación acceso,${colNombre}\n`;
+    registros.forEach((reg, idx) => {
+        const exp = reg.expediente || ((idx + 1) + '/' + year);
+        csv += `"${exp}","${reg.fecha_entrada}","${reg.solicitante}","${reg.resumen}","${reg.forma_acceso}","${reg.via_contacto}","${reg.tiempo_resolucion}","${reg.sentido_resolucion}","${reg.motivo_denegacion}","${reg.consejo_transparencia}"\n`;
+    });
+    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `RegistroSolictudes_${year}_Web.csv`;
+    link.click();
+}
 
-        init();
-    </script>
-</body>
-</html>
+function descargarExcel() {
+    const year = yearSelect.value;
+    const registros = datosCompletosDetallados[year] || [];
+    const colNombre = (year === '2020' || year === '2021') ? 'Reclamación Consejo Transparencia' : (year === '2022' || year === '2023' ? 'Consejo Transparencia CM' : 'Consejo Transparencia ');
+    const dataArray = [['Nº Expediente ', 'Fecha de entrada', 'Solicitante (sólo con consentimiento expreso)', 'Resumen de lo solicitado', 'Forma de acceso', 'Vía de contacto (sólo con consentimiento expreso)', 'Tiempo de resolución (en días hábiles) - suspensión', 'Sentido de la resolución', 'Motivo denegación acceso', colNombre]];
+    registros.forEach((reg, idx) => {
+        const exp = reg.expediente || ((idx + 1) + '/' + year);
+        dataArray.push([exp, reg.fecha_entrada, reg.solicitante, reg.resumen, reg.forma_acceso, reg.via_contacto, reg.tiempo_resolucion, reg.sentido_resolucion, reg.motivo_denegacion, reg.consejo_transparencia]);
+    });
+    const ws = XLSX.utils.aoa_to_sheet(dataArray);
+    ws['!cols'] = [{ wch: 14 }, { wch: 13 }, { wch: 35 }, { wch: 70 }, { wch: 14 }, { wch: 30 }, { wch: 45 }, { wch: 22 }, { wch: 50 }, { wch: 30 }];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Solicitudes');
+    XLSX.writeFile(wb, `RegistroSolictudes_${year}_Web.xlsx`);
+}
+
+init();
+</script></body></html>
