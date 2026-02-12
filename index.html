@@ -4244,7 +4244,7 @@ function crearGraficoPorcentaje(datos) {
 function procesarExpediente(expediente, año) {
     const numExp = expediente.replace(`/${año}`, '');
     if (expedientesConEnlace[año] && expedientesConEnlace[año].includes(numExp)) {
-        const suffix = '-resolucion_o';
+        const suffix = (año === '2024' || año === '2025') ? '-notificacionresolucionf-o' : '-resolucion_o';
         const url = `https://www.ucm.es/portaldetransparencia/file/${numExp}-${año}${suffix}`;
         return `<a href="${url}" target="_blank" rel="noopener" title="Ver expediente ${expediente}">${expediente}</a>`;
     }
