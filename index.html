@@ -121,7 +121,7 @@
             <h2>📄 Detalle completo de solicitudes de acceso y reclamaciones <span id="yearTitle"></span></h2>
             <div class="table-wrapper">
                 <table id="dataTable">
-                    <thead><tr><th>Nº Expte.</th><th>Fecha Entrada</th><th>Solicitante</th><th>Resumen de lo Solicitado</th><th>Forma Acceso</th><th>Vía Contacto</th><th>Tiempo Resolución</th><th>Sentido Resolución</th><th>Motivo Denegación</th><th>Reclamación CT</th></tr></thead>
+                    <thead><tr><th>Nº Expte.</th><th>Fecha Entrada</th><th>Solicitante (previo consentimiento)</th><th>Resumen de lo Solicitado</th><th>Forma Acceso</th><th>Vía Contacto (previo consentimiento)</th><th> Resolución (en días hábiles) - Suspensión</th><th>Sentido Resolución</th><th>Motivo Denegación</th><th>Reclamación Consejo Transparencia CM </th></tr></thead>
                     <tbody id="tableBody"></tbody>
                 </table>
             </div>
@@ -4158,7 +4158,6 @@ const expedientesConEnlace = {
     "2024": ['4','8','9','11','15','19','20','21','23','24','25','30','31','32','33','34','35','37','39','42','46','47','48','54','58','65','68','69','71','76','78','81','82','84'],
     "2025": ['2','3','4','9','29','30','31','35','41','42','46','48','49','50','51','52','54','55','56','59','61','62','64','66']
 };
-
 let chart = null, currentView = 'bar', searchTerm = '';
 const yearSelect = document.getElementById('year-select');
 const searchInput = document.getElementById('search-input');
@@ -4244,13 +4243,12 @@ function crearGraficoPorcentaje(datos) {
 function procesarExpediente(expediente, año) {
     const numExp = expediente.replace(`/${año}`, '');
     if (expedientesConEnlace[año] && expedientesConEnlace[año].includes(numExp)) {
-        const suffix = (año === '2025') ? '-notificacionf-o' : '-resolucion_o';
+        const suffix = '-resolucion_o';
         const url = `https://www.ucm.es/portaldetransparencia/file/${numExp}-${año}${suffix}`;
         return `<a href="${url}" target="_blank" rel="noopener" title="Ver expediente ${expediente}">${expediente}</a>`;
     }
     return expediente;
 }
-
 function procesarConsejoTransparencia(texto) {
     if (!texto || texto === 'NO' || texto === '***' || texto === '---' || texto.trim() === '') return 'NO';
     
